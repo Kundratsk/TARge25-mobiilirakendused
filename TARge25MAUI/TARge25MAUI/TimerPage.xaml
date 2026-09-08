@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://microsoft.com"
+             xmlns:x="http://microsoft.com"
+             x:Class="TARge25MAUI.TimerPage"
+             Title="TimerPage">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="Center">
+                <Label x:Name="lbl"
+                       Text="Vajuta nupule ja siia"
+                       FontSize="Medium"
+                       BackgroundColor="Beige">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_tappede"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Button x:Name="timer_btn"
+                        Text="Näita info"
+                        FontSize="Large"
+                        Clicked="timer_btn_Clicked">
+                </Button>
+            </FlexLayout>
+
+            <Button x:Name="tagasi"
+                    Text="Tagasi"
+                    FontSize="Large"
+                    Clicked="tagasi_Clicked">
+            </Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
