@@ -1,6 +1,4 @@
-using System;
-using Microsoft.Maui.Controls;
-using System.Threading.Tasks;
+
 
 namespace TARge25MAUI;
 
@@ -37,7 +35,7 @@ public partial class TimerPage : ContentPage
         if (on_off)
         {
             on_off = false;
-            timer_btn.Text = "Näita info";
+            timer_btn.Text = "Näita kella";
         }
         else
         {

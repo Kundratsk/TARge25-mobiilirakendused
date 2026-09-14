@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://microsoft.com"
-             xmlns:x="http://microsoft.com"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TARge25MAUI.TimerPage"
              Title="TimerPage">
 
     <ContentPage.Content>
-        <StackLayout>
+        <VerticalStackLayout Padding="20" Spacing="20">
             <FlexLayout Direction="Column" AlignItems="Center" JustifyContent="Center">
                 <Label x:Name="lbl"
-                       Text="Vajuta nupule ja siia"
-                       FontSize="Medium"
-                       BackgroundColor="Beige">
+                       Text="Kellaaeg"
+                       FontSize="Large"
+                       BackgroundColor="White"
+                       Padding="20">
+                       
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="TapGestureRecognizer_tappede"/>
                     </Label.GestureRecognizers>
@@ -20,6 +22,7 @@
                         Text="Näita info"
                         FontSize="Large"
                         Clicked="timer_btn_Clicked">
+                    
                 </Button>
             </FlexLayout>
 
@@ -28,6 +31,6 @@
                     FontSize="Large"
                     Clicked="tagasi_Clicked">
             </Button>
-        </StackLayout>
+        </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>
