@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TreeProject.MainPage"
+             Title="Puu hooajad">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="15">
+
+            <!-- ===================== PUU JOONISTUS ===================== -->
+            <AbsoluteLayout x:Name="TreeCanvas"
+                            HeightRequest="400"
+                            BackgroundColor="#B3E5FC">
+
+                <!-- Eraldi grupp: ainult puu ise, taust jääb paigale -->
+                <AbsoluteLayout x:Name="TreeGroup"
+                                BackgroundColor="Transparent"
+                                AnchorX="0.5"
+                                AnchorY="1"
+                                AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                                AbsoluteLayout.LayoutFlags="All">
+
+                    <!-- Tüvi -->
+                    <BoxView x:Name="TrunkBox"
+                             Color="#6D4C41"
+                             AbsoluteLayout.LayoutBounds="0.5, 1, 40, 150"
+                             AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+                    <!-- Lehestik -->
+                    <Border x:Name="LeavesFrame"
+                            BackgroundColor="Green"
+                            Stroke="Transparent"
+                            StrokeShape="RoundRectangle 100"
+                            Padding="0"
+                            AbsoluteLayout.LayoutBounds="0.5, 0.35, 220, 180"
+                            AbsoluteLayout.LayoutFlags="PositionProportional">
+
+                        <!-- Õunad (lisaülesanne: TapGestureRecognizer) -->
+                        <AbsoluteLayout>
+                            <Ellipse x:Name="Apple1"
+                                     Fill="Red" WidthRequest="25" HeightRequest="25"
+                                     AbsoluteLayout.LayoutBounds="60,50,25,25">
+                                <Ellipse.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAppleTapped" CommandParameter="1" />
+                                </Ellipse.GestureRecognizers>
+                            </Ellipse>
+
+                            <Ellipse x:Name="Apple2"
+                                     Fill="Red" WidthRequest="25" HeightRequest="25"
+                                     AbsoluteLayout.LayoutBounds="140,90,25,25">
+                                <Ellipse.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAppleTapped" CommandParameter="2" />
+                                </Ellipse.GestureRecognizers>
+                            </Ellipse>
+
+                            <Ellipse x:Name="Apple3"
+                                     Fill="Red" WidthRequest="25" HeightRequest="25"
+                                     AbsoluteLayout.LayoutBounds="30,120,25,25">
+                                <Ellipse.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnAppleTapped" CommandParameter="3" />
+                                </Ellipse.GestureRecognizers>
+                            </Ellipse>
+                        </AbsoluteLayout>
+                    </Border>
+
+                </AbsoluteLayout>
+
+            </AbsoluteLayout>
+
+            <!-- ===================== JUHTPANEEL ===================== -->
+
+            <Label Text="Tegevus:" FontAttributes="Bold" />
+            <Picker x:Name="ActionPicker" Title="Vali tegevus">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Kasva</x:String>
+                        <x:String>Õitse</x:String>
+                        <x:String>Värise</x:String>
+                        <x:String>Langeta</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Button x:Name="RunButton"
+                    Text="Käivita"
+                    Clicked="OnActionClicked"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White" />
+            
+            <Button x:Name="ResetButton"
+                    Text="Reset"
+                    Clicked="OnResetClicked"
+                    BackgroundColor="#607D8B"
+                    TextColor="White" />
+
+            <Label x:Name="InfoLabel"
+                   Text="Vali tegevus ja vajuta 'Käivita'"
+                   FontAttributes="Italic"
+                   TextColor="DarkSlateGray" />
+
+            <Label Text="Lehestiku läbipaistvus (sügis):" />
+            <Slider x:Name="OpacitySlider"
+                    Minimum="0" Maximum="1" Value="1"
+                    ValueChanged="OnOpacitySliderChanged" />
+
+            <Label Text="Animatsiooni kiirus (ms):" />
+            <HorizontalStackLayout Spacing="10">
+                <Stepper x:Name="SpeedStepper"
+                         Minimum="500" Maximum="2000"
+                         Increment="100" Value="1000"
+                         ValueChanged="OnSpeedStepperChanged" />
+                <Label x:Name="SpeedLabel" Text="1000 ms" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <Label Text="Virtuaalne aastaaeg (kuupäev):" />
+            <DatePicker x:Name="SeasonDatePicker" />
+
+            <Label Text="Virtuaalne ööpäevaaeg (kellaaeg):" />
+            <TimePicker x:Name="DayTimePicker" Time="12:00:00" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
