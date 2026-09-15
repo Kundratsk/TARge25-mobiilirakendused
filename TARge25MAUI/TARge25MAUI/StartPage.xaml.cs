@@ -1,12 +1,30 @@
-
+using Microsoft.Maui.Controls;
+using System.Collections.Generic;
 
 namespace TARge25MAUI;
 
 public partial class StartPage : ContentPage
 {
-    // Lehtede ja nuputekstide listid
-    public List<ContentPage> Lehed = new List<ContentPage>() { new TextPage(), new FigurePage(), new TimerPage() };
-    public List<string> LeheNimed = new List<string>() { "Tekst", "Kujund", "Taimer" };
+    // Lehtede ja nuputekstide listid - LISATUD: DateTimePage, StepperSliderPage, RgbColorPage
+    public List<ContentPage> Lehed = new List<ContentPage>()
+    {
+        new TextPage(),
+        new FigurePage(),
+        new TimerPage(),
+        new DateTimePage(),
+        new StepperSliderPage(),
+        new RgbColorPage() // RGB värvimuutja ülesanne
+    };
+
+    public List<string> LeheNimed = new List<string>()
+    {
+        "Tekst",
+        "Kujund",
+        "Taimer",
+        "Kuupäev ja Aeg",
+        "Stepper ja Slider",
+        "RGB Värvimuutja"
+    };
 
     public StartPage()
     {
