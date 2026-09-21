@@ -13,7 +13,8 @@ public partial class StartPage : ContentPage
         new TimerPage(),
         new DateTimePage(),
         new StepperSliderPage(),
-        new RgbColorPage() // RGB värvimuutja ülesanne
+        new RgbColorPage(), // RGB värvimuutja ülesanne
+        new Pop_Up_Page()
     };
 
     public List<string> LeheNimed = new List<string>()
@@ -21,9 +22,10 @@ public partial class StartPage : ContentPage
         "Tekst",
         "Kujund",
         "Taimer",
-        "Kuupäev ja Aeg",
+        "Kuupaev ja Aeg",
         "Stepper ja Slider",
-        "RGB Värvimuutja"
+        "RGB Varvimuutja",
+        "Pop_Up_Page"
     };
 
     public StartPage()
