@@ -14,7 +14,8 @@ public partial class StartPage : ContentPage
         new DateTimePage(),
         new StepperSliderPage(),
         new RgbColorPage(), // RGB värvimuutja ülesanne
-        new Pop_Up_Page()
+        new Pop_Up_Page(),
+        new GridPage()
     };
 
     public List<string> LeheNimed = new List<string>()
@@ -26,6 +27,7 @@ public partial class StartPage : ContentPage
         "Stepper ja Slider",
         "RGB Varvimuutja",
         "Pop_Up_Page näidis",
+        "Grid"
     };
 
     public StartPage()
