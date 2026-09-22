@@ -25,7 +25,7 @@ public partial class StartPage : ContentPage
         "Kuupaev ja Aeg",
         "Stepper ja Slider",
         "RGB Varvimuutja",
-        "Pop_Up_Page"
+        "Pop_Up_Page näidis",
     };
 
     public StartPage()
@@ -69,10 +69,64 @@ public partial class StartPage : ContentPage
             vst.Add(nupp);
         }
 
+        // ==========================================
+        // LISATUD: Punane testnupp pärast for-tsüklit
+        // ==========================================
+        Button nulliNupp = new Button
+        {
+            Text = "Nulli seaded (Testimiseks)",
+            BackgroundColor = Colors.Red,
+            TextColor = Colors.White,
+            CornerRadius = 10,
+            HeightRequest = 50,
+            Margin = new Thickness(0, 30, 0, 0) // Jätame veidi tühja ruumi üles
+        };
+
+        // Mis juhtub nupule vajutades?
+        nulliNupp.Clicked += async (sender, e) =>
+        {
+            // Kustutame seadme mälust meie spetsiifilise võtme
+            Preferences.Default.Remove("EsimeneKäivitamine");
+
+            // Anname tagasisidet, et nullimine õnnestus
+            await DisplayAlertAsync("Edukalt nullitud", "Mälu on tühjendatud. Kui sa lehe uuesti avad, käitub äpp nagu täiesti uus!", "OK");
+        };
+
+        // Lisame testnupu samasse vst paigutusse
+        vst.Add(nulliNupp);
+        // ==========================================
+
         // Paneme kogu sisu keritavasse vaatesse (ScrollView)
         ScrollView sv = new ScrollView { Content = vst };
 
         // Määrame lehe põhisistuks ScrollView
         Content = sv;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // 1. Loeme seadme mälust muutuja "EsimeneKäivitamine".
+        bool onEsimeneStart = Preferences.Default.Get("EsimeneKäivitamine", true);
+
+        // 2. Kui on esimene start, kuvame dialoogiakna
+        if (onEsimeneStart)
+        {
+            bool vastus = await DisplayAlertAsync("Tere tulemast!",
+                "Tundub, et avasid selle rakenduse esimest korda. Kas soovid näha lühikest juhendit?",
+                "Jah, palun",
+                "Ei, saan ise hakkama");
+
+            if (vastus)
+            {
+                await DisplayAlertAsync("Juhend",
+                    "Siin on sinu lühike juhend: vali menüüst sobiv teema ja uuri, kuidas elemendid töötavad!",
+                    "Selge");
+            }
+
+            // 3. Salvestame info, et esimene käivitamine on tehtud.
+            Preferences.Default.Set("EsimeneKäivitamine", false);
+        }
     }
 }
