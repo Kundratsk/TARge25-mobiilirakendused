@@ -1,9 +1,4 @@
-﻿using Microsoft.Maui.Controls;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using TripsTrapsTrull;
-
+﻿
 namespace TripsTrapsTrull
 {
     public class MainPage : ContentPage
@@ -31,7 +26,7 @@ namespace TripsTrapsTrull
                 VerticalOptions = LayoutOptions.Center
             };
 
-            _statusLabel = new Label
+            _statusLabel = new Label 
             {
                 Text = $"Mängija {_game.CurrentPlayer} alustab!",
                 FontSize = 24,
