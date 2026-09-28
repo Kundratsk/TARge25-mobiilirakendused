@@ -4,18 +4,28 @@ using System.Text;
 
 namespace TripsTrapsTrull
 {
-    
     public class GameLogic
     {
+        // 1. UUS: Hoiab praeguse mängulaua suurust (vaikimisi 3)
+        public int Size { get; private set; } = 3;
+
         public string[,] Board { get; private set; } = new string[3, 3];
         public string CurrentPlayer { get; private set; } = "X";
         public int WinsX { get; set; } = 0;
         public int WinsO { get; set; } = 0;
         public int Draws { get; set; } = 0;
 
+        // 2. UUS: Meetod laua suuruse muutmiseks MainPage poolt
+        public void UpdateGridSize(int newSize)
+        {
+            Size = newSize;
+            ResetGame();
+        }
+
         public void ResetGame()
         {
-            Board = new string[3, 3];
+            // 3. MUUDETUD: Loob uue massiivi dünaamilise suurusega
+            Board = new string[Size, Size];
         }
 
         public void SetStartingPlayer(string player)
@@ -40,21 +50,71 @@ namespace TripsTrapsTrull
 
         public string CheckWinner()
         {
-            // Read
-            for (int i = 0; i < 3; i++)
-                if (!string.IsNullOrEmpty(Board[i, 0]) && Board[i, 0] == Board[i, 1] && Board[i, 1] == Board[i, 2])
-                    return Board[i, 0];
+            // 4. MUUDETUD: Dünaamiline ridade kontroll
+            for (int r = 0; r < Size; r++)
+            {
+                if (!string.IsNullOrEmpty(Board[r, 0]))
+                {
+                    bool match = true;
+                    for (int c = 1; c < Size; c++)
+                    {
+                        if (Board[r, c] != Board[r, 0])
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (match) return Board[r, 0];
+                }
+            }
 
-            // Veerud
-            for (int i = 0; i < 3; i++)
-                if (!string.IsNullOrEmpty(Board[0, i]) && Board[0, i] == Board[1, i] && Board[1, i] == Board[2, i])
-                    return Board[0, i];
+            // 5. MUUDETUD: Dünaamiline veergude kontroll
+            for (int c = 0; c < Size; c++)
+            {
+                if (!string.IsNullOrEmpty(Board[0, c]))
+                {
+                    bool match = true;
+                    for (int r = 1; r < Size; r++)
+                    {
+                        if (Board[r, c] != Board[0, c])
+                        {
+                            match = false;
+                            break;
+                        }
+                    }
+                    if (match) return Board[0, c];
+                }
+            }
 
-            // Diagonaalid
-            if (!string.IsNullOrEmpty(Board[0, 0]) && Board[0, 0] == Board[1, 1] && Board[1, 1] == Board[2, 2])
-                return Board[0, 0];
-            if (!string.IsNullOrEmpty(Board[0, 2]) && Board[0, 2] == Board[1, 1] && Board[1, 1] == Board[2, 0])
-                return Board[0, 2];
+            // 6. MUUDETUD: Dünaamiline peadiagonaali kontroll (ülalt vasakult alla paremale)
+            if (!string.IsNullOrEmpty(Board[0, 0]))
+            {
+                bool match = true;
+                for (int i = 1; i < Size; i++)
+                {
+                    if (Board[i, i] != Board[0, 0])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) return Board[0, 0];
+            }
+
+            // 7. MUUDETUD: Dünaamiline kõrvaldiagonaali kontroll (ülalt paremalt alla vasakule)
+            if (!string.IsNullOrEmpty(Board[0, Size - 1]))
+            {
+                bool match = true;
+                for (int i = 1; i < Size; i++)
+                {
+                    if (Board[i, Size - 1 - i] != Board[0, Size - 1])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) return Board[0, Size - 1];
+            }
 
             // Kontrolli viiki
             bool isFull = true;
