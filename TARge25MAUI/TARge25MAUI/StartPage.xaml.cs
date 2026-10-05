@@ -16,7 +16,8 @@ public partial class StartPage : ContentPage
         new RgbColorPage(), // RGB värvimuutja ülesanne
         new Pop_Up_Page(),
         new GridPage(),
-        new ListViewPage()
+        new ListViewPage(),
+        new KarussellPage()
     };
 
     public List<string> LeheNimed = new List<string>()
@@ -29,7 +30,8 @@ public partial class StartPage : ContentPage
         "RGB Varvimuutja",
         "Pop_Up_Page näidis",
         "Grid",
-        "List View page"
+        "List View page",
+        "Karussell"
     };
 
     public StartPage()
