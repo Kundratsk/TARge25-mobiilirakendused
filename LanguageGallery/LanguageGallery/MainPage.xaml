@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:services="clr-namespace:LanguageGallery.Services"
+             xmlns:models="clr-namespace:LanguageGallery.Models"
+             x:Class="LanguageGallery.MainPage"
+             x:Name="Page">
+             
+    
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1e3c72" Offset="0.0" />
+                <GradientStop Color="#2a5298" Offset="0.5" />
+                <GradientStop Color="#7b4397" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid RowDefinitions="Auto,*,Auto,Auto" Padding="20" RowSpacing="15">
+
+            <Label Grid.Row="0"
+                   Text="{Binding [AppTitle], Source={x:Static services:LocalizationResourceManager.Instance}}"
+                   FontSize="28" FontAttributes="Bold"
+                   TextColor="White" HorizontalOptions="Center" />
+
+            <CarouselView Grid.Row="1"
+                          x:Name="Carousel"
+                          ItemsSource="{Binding Cards}"
+                          IndicatorView="Indicators"
+                          Loop="True"
+                          PeekAreaInsets="30">
+                <CarouselView.ItemTemplate>
+                    <DataTemplate x:DataType="models:LanguageCard">
+                        <Border BackgroundColor="#33FFFFFF" Stroke="#66FFFFFF"
+                                StrokeThickness="1" Padding="20" Margin="10"
+                                StrokeShape="RoundRectangle 24">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCardTapped" />
+                            </Border.GestureRecognizers>
+                            <VerticalStackLayout Spacing="15" VerticalOptions="Center">
+                                <Image Source="{Binding ImageSource}"
+                                       HeightRequest="140" WidthRequest="140"
+                                       Aspect="AspectFit" />
+                                <Label Text="{Binding Name}" FontSize="30"
+                                       FontAttributes="Bold" TextColor="White"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Description}" FontSize="16"
+                                       TextColor="#EEEEEE"
+                                       HorizontalTextAlignment="Center" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+
+            <IndicatorView Grid.Row="2" x:Name="Indicators"
+                           IndicatorColor="#66FFFFFF"
+                           SelectedIndicatorColor="White"
+                           IndicatorSize="12" HorizontalOptions="Center" />
+
+            <HorizontalStackLayout Grid.Row="3" Spacing="15" HorizontalOptions="Center">
+                <Button Text="🇬🇧 English" CommandParameter="en" Clicked="OnLanguageClicked"
+                        CornerRadius="20" BackgroundColor="#FFFFFF" TextColor="#1e3c72" />
+                <Button Text="🇪🇪 Eesti" CommandParameter="et" Clicked="OnLanguageClicked"
+                        CornerRadius="20" BackgroundColor="#FFFFFF" TextColor="#1e3c72" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
