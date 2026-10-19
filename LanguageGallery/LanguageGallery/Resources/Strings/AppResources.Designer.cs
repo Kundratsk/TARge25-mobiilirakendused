@@ -63,9 +63,9 @@ namespace LanguageGallery.Resources.Strings {
         /// <summary>
         ///   Looks up a localized string similar to Programming Languages.
         /// </summary>
-        public static string AppTitle {
+        public static string _ {
             get {
-                return ResourceManager.GetString("AppTitle", resourceCulture);
+                return ResourceManager.GetString(",", resourceCulture);
             }
         }
         
