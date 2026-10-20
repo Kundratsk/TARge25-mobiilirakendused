@@ -42,6 +42,8 @@
                     FontFamily="{DynamicResource AppFont}" Clicked="OnArcherClicked" />
             <Button x:Name="CannonButton" Grid.Column="1" Text="💣 Kahur (120)"
                     FontFamily="{DynamicResource AppFont}" Clicked="OnCannonClicked" />
+            <Button x:Name="MageButton" Grid.Column="2" Text="🧙 Võlur (175)"
+                    FontFamily="{DynamicResource AppFont}" Clicked="OnMageClicked"/>
         </Grid>
 
 
