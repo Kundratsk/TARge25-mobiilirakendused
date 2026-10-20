@@ -68,4 +68,9 @@ public abstract class Enemy
         if (WaypointIndex + 1 >= path.Count)
             ReachedEnd = true;
     }
+    public void IncreaseHealth()
+    {
+         Math.Round(Health * 1.2);
+    }
+
 }

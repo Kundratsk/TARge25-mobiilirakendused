@@ -88,6 +88,17 @@ public class Game
         State = GameState.NotStarted;
     }
 
+    public void getStrongerEnemies()
+    {
+        if (CurrentWave >= 5)
+        {
+            foreach (Enemy enemy in _enemies)
+            {
+                
+            }
+        }
+    }
+
     // ---------- Tornide paigutamine ----------
 
     public bool IsPathCell(int column, int row)
@@ -256,7 +267,7 @@ public class Game
         Point start = _path[0];
         int n = CurrentWave;
 
-        for (int i = 0; i < 3 + n * 2; i++)
+        for (int i = 0; i < 3 + n * 2.5; i++)
             _spawnQueue.Enqueue(() => new BasicEnemy(start));
 
         if (n >= 2)
@@ -274,5 +285,16 @@ public class Game
     {
         State = won ? GameState.Won : GameState.Lost;
         GameEnded?.Invoke(won);
+    }
+
+    public void getStrongerWaves()
+    {
+        if (CurrentWave % 4 == 0)
+        {
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.IncreaseHealth() ;
+            }
+        }
     }
 }
