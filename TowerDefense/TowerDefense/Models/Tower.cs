@@ -35,6 +35,11 @@ namespace TowerDefense.Models
             return Math.Sqrt(dx * dx + dy * dy) <= Range;
         }
 
+        public int GetSellValue()
+        {
+            return (int)(Cost * 0.7);
+        }
+
         // Tagastab vaenlase, keda tulistati (või null, kui ei tulistatud)
         public Enemy? Update(double deltaSeconds, IEnumerable<Enemy>enemies)
         {
