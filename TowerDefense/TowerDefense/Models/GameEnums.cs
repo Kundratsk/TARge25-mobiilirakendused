@@ -12,5 +12,6 @@ public enum GameState
 public enum TowerType
 {
     Archer,
-    Cannon
+    Cannon,
+    Mage
 }
