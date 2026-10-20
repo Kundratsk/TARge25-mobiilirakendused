@@ -26,9 +26,12 @@ public class GameDrawable : IDrawable
     {
         if (Game == null || Theme == null) return;
 
-        CellSize = Math.Min(dirtyRect.Width / Game.Columns, dirtyRect.Height / Game.Rows);
-        OffsetX = (dirtyRect.Width - CellSize * Game.Columns) / 2;
-        OffsetY = (dirtyRect.Height - CellSize * Game.Rows) / 2;
+        CellSize = Math.Min(
+            dirtyRect.Width / Game.Columns,
+            dirtyRect.Height / Game.Rows);
+
+        OffsetX = (dirtyRect.Width - CellSize * Game.Columns) / 2f;
+        OffsetY = (dirtyRect.Height - CellSize * Game.Rows) / 2f;
 
         // Ruudustik: rada ja ehitusalad
         for (int c = 0; c < Game.Columns; c++)
@@ -38,9 +41,7 @@ public class GameDrawable : IDrawable
                 float x = OffsetX + c * CellSize;
                 float y = OffsetY + r * CellSize;
 
-                canvas.FillColor = Game.IsPathCell(c, r)
-                    ? Theme.AccentColor.WithAlpha(0.35f)
-                    : Theme.CardColor;
+                canvas.FillColor = Theme.CardColor;
                 canvas.FillRectangle(x, y, CellSize, CellSize);
 
                 canvas.StrokeColor = Theme.TextColor.WithAlpha(0.15f);
@@ -48,7 +49,7 @@ public class GameDrawable : IDrawable
                 canvas.DrawRectangle(x, y, CellSize, CellSize);
             }
         }
-
+        DrawRoundedPath(canvas);
         // Tornid
         foreach (Tower tower in Game.Towers)
         {
@@ -94,5 +95,34 @@ public class GameDrawable : IDrawable
         canvas.FontColor = Theme.TextColor;
         canvas.DrawString(symbol, cx - CellSize / 2, cy - CellSize / 2, CellSize, CellSize,
             HorizontalAlignment.Center, VerticalAlignment.Center);
+
+
     }
+
+    private void DrawRoundedPath(ICanvas canvas)
+    {
+        var path = new PathF();
+
+        Point first = Game.Path[0];
+
+        path.MoveTo(
+            OffsetX + ((float)first.X + 0.5f) * CellSize,
+            OffsetY + ((float)first.Y + 0.5f) * CellSize);
+
+        for (int i = 1; i < Game.Path.Count; i++)
+        {
+            Point p = Game.Path[i];
+
+            path.LineTo(
+                OffsetX + ((float)p.X + 0.5f) * CellSize,
+                OffsetY + ((float)p.Y + 0.5f) * CellSize);
+        }
+
+        canvas.StrokeColor = Theme.AccentColor.WithAlpha(0.7f);
+        canvas.StrokeSize = CellSize * 0.65f;
+        canvas.StrokeLineCap = LineCap.Round;
+        canvas.StrokeLineJoin = LineJoin.Round;
+        canvas.DrawPath(path);
+    }
+
 }
