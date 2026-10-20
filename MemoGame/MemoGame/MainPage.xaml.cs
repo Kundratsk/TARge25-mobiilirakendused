@@ -1,11 +1,12 @@
-﻿
-namespace MemoGame;
+﻿namespace MemoGame;
 
 public partial class MainPage : ContentPage
 {
     private Game _game;
     private bool _timerStarted;
     private int _timerGeneration;
+
+    private readonly List<Theme> _themes = Theme.GetAll();
 
     public MainPage()
     {
@@ -16,7 +17,19 @@ public partial class MainPage : ContentPage
         _game.StatsChanged += UpdateStats;
         _game.GameFinished += OnGameFinished;
 
+        // Täida teemavalik (Hele, Tume, Värviline) ja vali vaikimisi Tume.
+        ThemePicker.ItemsSource = _themes.Select(t => t.Name).ToList();
+        ThemePicker.SelectedIndex = 1;
+
         StartNewGame();
+    }
+
+    private void OnThemeChanged(object? sender, EventArgs e)
+    {
+        if (ThemePicker.SelectedIndex < 0)
+            return;
+
+        _themes[ThemePicker.SelectedIndex].Apply(this);
     }
 
     private void StartNewGame()

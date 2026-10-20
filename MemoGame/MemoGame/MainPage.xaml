@@ -4,12 +4,29 @@
              BackgroundColor="#121526"
              x:Class="MemoGame.MainPage"
              Title="MemoGame">
-    
+
+
+    <ContentPage.Resources>
+        <Color x:Key="TextColor">White</Color>
+        <Color x:Key="CardColor">#303858</Color>
+        <x:String x:Key="AppFont">OpenSansRegular</x:String>
+    </ContentPage.Resources>
 
     <ScrollView>
         <VerticalStackLayout
             Padding="24,30"
             Spacing="22">
+
+            <!-- Teema valik -->
+            <Picker
+                x:Name="ThemePicker"
+                Title="Vali teema"
+                TextColor="{DynamicResource TextColor}"
+                TitleColor="{DynamicResource TextColor}"
+                FontFamily="{DynamicResource AppFont}"
+                HorizontalOptions="End"
+                WidthRequest="150"
+                SelectedIndexChanged="OnThemeChanged"/>
 
             <!-- Pealkiri -->
             <VerticalStackLayout Spacing="6">
@@ -18,6 +35,7 @@
                     FontSize="14"
                     CharacterSpacing="4"
                     TextColor="#A78BFA"
+                    FontFamily="{DynamicResource AppFont}"
                     FontAttributes="Bold"
                     HorizontalOptions="Center"/>
 
@@ -25,13 +43,16 @@
                     Text="Treeni oma mälu!"
                     FontSize="30"
                     FontAttributes="Bold"
-                    TextColor="White"
+                    TextColor="{DynamicResource TextColor}"
+                    FontFamily="{DynamicResource AppFont}"
                     HorizontalOptions="Center"/>
 
                 <Label
                     Text="Leia kõik sobivad kaardipaarid."
                     FontSize="14"
-                    TextColor="#A5ACC5"
+                    TextColor="{DynamicResource TextColor}"
+                    FontFamily="{DynamicResource AppFont}"
+                    Opacity="0.7"
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
@@ -40,8 +61,8 @@
 
                 <Border
                     Grid.Column="0"
-                    BackgroundColor="#20263D"
-                    Stroke="#343B59"
+                    BackgroundColor="Transparent"
+                    Stroke="#66888888"
                     StrokeThickness="1"
                     Padding="16"
                     StrokeShape="RoundRectangle 18">
@@ -50,7 +71,9 @@
                         <Label
                             Text="KÄIGUD"
                             FontSize="12"
-                            TextColor="#A5ACC5"
+                            TextColor="{DynamicResource TextColor}"
+                            FontFamily="{DynamicResource AppFont}"
+                            Opacity="0.7"
                             HorizontalOptions="Center"/>
 
                         <Label
@@ -58,15 +81,16 @@
                             Text="0"
                             FontSize="28"
                             FontAttributes="Bold"
-                            TextColor="White"
+                            TextColor="{DynamicResource TextColor}"
+                            FontFamily="{DynamicResource AppFont}"
                             HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </Border>
 
                 <Border
                     Grid.Column="1"
-                    BackgroundColor="#20263D"
-                    Stroke="#343B59"
+                    BackgroundColor="Transparent"
+                    Stroke="#66888888"
                     StrokeThickness="1"
                     Padding="16"
                     StrokeShape="RoundRectangle 18">
@@ -75,7 +99,9 @@
                         <Label
                             Text="LEITUD PAARID"
                             FontSize="12"
-                            TextColor="#A5ACC5"
+                            TextColor="{DynamicResource TextColor}"
+                            FontFamily="{DynamicResource AppFont}"
+                            Opacity="0.7"
                             HorizontalOptions="Center"/>
 
                         <Label
@@ -84,6 +110,7 @@
                             FontSize="28"
                             FontAttributes="Bold"
                             TextColor="#A78BFA"
+                            FontFamily="{DynamicResource AppFont}"
                             HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </Border>
@@ -91,11 +118,12 @@
 
             <!-- Mängulaud -->
             <Border
-                BackgroundColor="#1A1F33"
-                Stroke="#303651"
+                BackgroundColor="Transparent"
+                Stroke="#66888888"
                 StrokeThickness="1"
                 Padding="12"
-                StrokeShape="RoundRectangle 22">
+                StrokeShape="RoundRectangle 22"
+                >
 
                 <Grid
                     x:Name="GameGrid"
@@ -114,7 +142,8 @@
                 x:Name="StatusLabel"
                 Text="Vali kaks kaarti ja leia paar!"
                 FontSize="14"
-                TextColor="#C4B5FD"
+                TextColor="{DynamicResource TextColor}"
+                FontFamily="{DynamicResource AppFont}"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"/>
 
@@ -126,6 +155,7 @@
                 FontAttributes="Bold"
                 TextColor="White"
                 BackgroundColor="#7C5CFC"
+                FontFamily="{DynamicResource AppFont}"
                 CornerRadius="16"
                 HeightRequest="56"
                 Clicked="OnNewGameClicked"/>
