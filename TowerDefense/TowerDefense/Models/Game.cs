@@ -129,8 +129,11 @@ public class Game
 
         Tower tower = type switch
         {
+            TowerType.Archer => new ArcherTower(column, row),
             TowerType.Cannon => new CannonTower(column, row),
-            _ => new ArcherTower(column, row)
+            TowerType.Mage => new MageTower(column, row),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type,
+            "Tundmatu torni tüüp.")
         };
 
         if (!Player.SpendMoney(tower.Cost))

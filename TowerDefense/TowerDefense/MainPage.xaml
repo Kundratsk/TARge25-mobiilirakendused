@@ -37,14 +37,14 @@
         </GraphicsView>
 
         <!-- Tornide valik -->
-        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="8">
+        <Grid Grid.Row="3" ColumnDefinitions="*,*,*" ColumnSpacing="8">
             <Button x:Name="ArcherButton" Grid.Column="0" Text="🏹 Vibukütt (50)"
                     FontFamily="{DynamicResource AppFont}" Clicked="OnArcherClicked" />
             <Button x:Name="CannonButton" Grid.Column="1" Text="💣 Kahur (120)"
                     FontFamily="{DynamicResource AppFont}" Clicked="OnCannonClicked" />
             <Button x:Name="MageButton" Grid.Column="2" Text="🧙 Võlur (175)"
-                    FontFamily="{DynamicResource AppFont}" Clicked="OnMageClicked"/>
-        </Grid>
+                   FontFamily="{DynamicResource AppFont}" Clicked="OnMageClicked"/>
+            </Grid>
 
 
         <!-- Juhtimine -->
@@ -53,6 +53,8 @@
                     FontFamily="{DynamicResource AppFont}" Clicked="OnStartClicked" />
             <Button x:Name="SellButton" Grid.Column="1" Text="💰 Müü"
                     FontFamily="{DynamicResource AppFont}" Clicked="OnSellClicked" />
+        
+        
         </Grid>
 
 

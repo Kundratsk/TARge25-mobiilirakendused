@@ -144,7 +144,7 @@ public partial class MainPage : ContentPage
         UpdateTowerButtons();
     }
 
-    private void OnMageclicked(object? sender, EventArgs e)
+    private void OnMageClicked(object? sender, EventArgs e)
     {
         _selectedType = TowerType.Mage;
         UpdateTowerButtons();
@@ -204,12 +204,29 @@ public partial class MainPage : ContentPage
     private void UpdateTowerButtons()
     {
         bool archer = _selectedType == TowerType.Archer;
+        bool cannon = _selectedType == TowerType.Cannon;
+        bool mage = _selectedType == TowerType.Mage;
 
-        ArcherButton.BackgroundColor = archer ? _theme.AccentColor : _theme.CardColor;
-        ArcherButton.TextColor = archer ? _theme.BackgroundColor : _theme.TextColor;
+        ArcherButton.BackgroundColor = archer
+            ? _theme.AccentColor
+            : _theme.CardColor;
+        ArcherButton.TextColor = archer
+            ? _theme.BackgroundColor
+            : _theme.TextColor;
 
-        CannonButton.BackgroundColor = archer ? _theme.CardColor : _theme.AccentColor;
-        CannonButton.TextColor = archer ? _theme.TextColor : _theme.BackgroundColor;
+        CannonButton.BackgroundColor = cannon
+            ? _theme.AccentColor
+            : _theme.CardColor;
+        CannonButton.TextColor = cannon
+            ? _theme.BackgroundColor
+            : _theme.TextColor;
+
+        MageButton.BackgroundColor = mage
+            ? _theme.AccentColor
+            : _theme.CardColor;
+        MageButton.TextColor = mage
+            ? _theme.BackgroundColor
+            : _theme.TextColor;
     }
     private void UpdateSellButton()
     {
