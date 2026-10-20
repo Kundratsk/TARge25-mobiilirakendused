@@ -8,7 +8,7 @@
     <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" Padding="10" RowSpacing="8">
 
         <!-- Statistika -->
-        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*">
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*, auto">
             <Label x:Name="LivesLabel" Grid.Column="0" HorizontalTextAlignment="Center" FontSize="16"
                    TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
             <Label x:Name="MoneyLabel" Grid.Column="1" HorizontalTextAlignment="Center" FontSize="16"
@@ -17,6 +17,11 @@
                    TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
             <Label x:Name="WaveLabel" Grid.Column="3" HorizontalTextAlignment="Center" FontSize="16"
                    TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
+            <Picker x:Name="ThemePicker" Grid.Column="4" Title=""
+                        TextColor="{DynamicResource PrimaryText}"
+                        TitleColor="{DynamicResource PrimaryText}"
+                        FontFamily="{DynamicResource AppFont}"
+                        SelectedIndexChanged="OnThemeChanged" />
         </Grid>
 
         <!-- Teade -->
@@ -39,16 +44,16 @@
                     FontFamily="{DynamicResource AppFont}" Clicked="OnCannonClicked" />
         </Grid>
 
-        <!-- Juhtimine ja teema -->
+
+        <!-- Juhtimine -->
         <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="8">
             <Button x:Name="StartButton" Grid.Column="0" Text="▶ Start"
                     FontFamily="{DynamicResource AppFont}" Clicked="OnStartClicked" />
-            <Picker x:Name="ThemePicker" Grid.Column="1" Title="Teema"
-                    TextColor="{DynamicResource PrimaryText}"
-                    TitleColor="{DynamicResource PrimaryText}"
-                    FontFamily="{DynamicResource AppFont}"
-                    SelectedIndexChanged="OnThemeChanged" />
+            <Button x:Name="SellButton" Grid.Column="1" Text="💰 Müü"
+                    FontFamily="{DynamicResource AppFont}" Clicked="OnSellClicked" />
         </Grid>
+
+
     </Grid>
 
 </ContentPage>
