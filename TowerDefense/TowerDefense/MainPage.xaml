@@ -3,61 +3,154 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TowerDefense.MainPage"
              Title="Tower Defense"
-             BackgroundColor="{DynamicResource PageBackground}">
+             BackgroundColor="{DynamicResource PageBackground}"
+             Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto,Auto" Padding="10" RowSpacing="8">
+    <Grid Padding="6"
+          RowDefinitions="Auto,*"
+          RowSpacing="4">
 
-        <!-- Statistika -->
-        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*, auto">
-            <Label x:Name="LivesLabel" Grid.Column="0" HorizontalTextAlignment="Center" FontSize="16"
-                   TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
-            <Label x:Name="MoneyLabel" Grid.Column="1" HorizontalTextAlignment="Center" FontSize="16"
-                   TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
-            <Label x:Name="ScoreLabel" Grid.Column="2" HorizontalTextAlignment="Center" FontSize="16"
-                   TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
-            <Label x:Name="WaveLabel" Grid.Column="3" HorizontalTextAlignment="Center" FontSize="16"
-                   TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
-            <Picker x:Name="ThemePicker" Grid.Column="4" Title=""
-                        TextColor="{DynamicResource PrimaryText}"
-                        TitleColor="{DynamicResource PrimaryText}"
-                        FontFamily="{DynamicResource AppFont}"
-                        SelectedIndexChanged="OnThemeChanged" />
+        <!-- Ülemine statistika -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="*,*,*,*,Auto"
+              ColumnSpacing="4">
+
+            <Label x:Name="LivesLabel"
+                   Grid.Column="0"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+
+            <Label x:Name="MoneyLabel"
+                   Grid.Column="1"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+
+            <Label x:Name="ScoreLabel"
+                   Grid.Column="2"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+
+            <Label x:Name="WaveLabel"
+                   Grid.Column="3"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+            
+            <Picker x:Name="ThemePicker"
+                    Grid.Column="4"
+                    Title="🎨"
+                    WidthRequest="48"
+                    FontSize="12"
+                    TextColor="{DynamicResource PrimaryText}"
+                    TitleColor="{DynamicResource PrimaryText}"
+                    SelectedIndexChanged="OnThemeChanged" />
         </Grid>
 
-        <!-- Teade -->
-        <Label x:Name="StatusLabel" Grid.Row="1" HorizontalTextAlignment="Center" FontSize="14"
-               Text="Vali torn ja puuduta ruutu, et see paigutada."
-               TextColor="{DynamicResource PrimaryText}" FontFamily="{DynamicResource AppFont}" />
+        <!-- Suur mängulaud ja väike ikooniriba -->
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,44"
+              ColumnSpacing="3">
 
-        <!-- Mänguväli -->
-        <GraphicsView x:Name="BoardView" Grid.Row="2">
-            <GraphicsView.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnBoardTapped" />
-            </GraphicsView.GestureRecognizers>
-        </GraphicsView>
+            <!-- Mängulaud -->
+            <Grid Grid.Column="0"
+                  RowDefinitions="Auto,*"
+                  RowSpacing="2">
 
-        <!-- Tornide valik -->
-        <Grid Grid.Row="3" ColumnDefinitions="*,*,*" ColumnSpacing="8">
-            <Button x:Name="ArcherButton" Grid.Column="0" Text="🏹 Vibukütt (50)"
-                    FontFamily="{DynamicResource AppFont}" Clicked="OnArcherClicked" />
-            <Button x:Name="CannonButton" Grid.Column="1" Text="💣 Kahur (120)"
-                    FontFamily="{DynamicResource AppFont}" Clicked="OnCannonClicked" />
-            <Button x:Name="MageButton" Grid.Column="2" Text="🧙 Võlur (175)"
-                   FontFamily="{DynamicResource AppFont}" Clicked="OnMageClicked"/>
+                <Label x:Name="StatusLabel"
+                       Grid.Row="0"
+                       FontSize="12"
+                       MaxLines="2"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center"
+                       Text="Vali torn ja puuduta ruutu."
+                       TextColor="{DynamicResource PrimaryText}" />
+
+                <GraphicsView x:Name="BoardView"
+                              Grid.Row="1"
+                              HorizontalOptions="Fill"
+                              VerticalOptions="Fill">
+
+                    <GraphicsView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnBoardTapped" />
+                    </GraphicsView.GestureRecognizers>
+
+                </GraphicsView>
             </Grid>
 
+            <!-- Väikesed ikooninupud -->
+            <Grid Grid.Column="1"
+                  RowDefinitions="*,Auto,Auto,Auto,*,Auto,Auto,*"
+                  RowSpacing="6">
 
-        <!-- Juhtimine -->
-        <Grid Grid.Row="4" ColumnDefinitions="*,*" ColumnSpacing="8">
-            <Button x:Name="StartButton" Grid.Column="0" Text="▶ Start"
-                    FontFamily="{DynamicResource AppFont}" Clicked="OnStartClicked" />
-            <Button x:Name="SellButton" Grid.Column="1" Text="💰 Müü"
-                    FontFamily="{DynamicResource AppFont}" Clicked="OnSellClicked" />
-        
-        
+                <Button x:Name="ArcherButton"
+                        Grid.Row="1"
+                        Text="🏹"
+                        FontSize="23"
+                        Padding="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        MinimumHeightRequest="44"
+                        CornerRadius="10"
+                        Clicked="OnArcherClicked" />
+
+                <Button x:Name="CannonButton"
+                        Grid.Row="2"
+                        Text="💣"
+                        FontSize="23"
+                        Padding="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        MinimumHeightRequest="44"
+                        CornerRadius="10"
+                        Clicked="OnCannonClicked" />
+
+                <Button x:Name="MageButton"
+                        Grid.Row="3"
+                        Text="🧙"
+                        FontSize="23"
+                        Padding="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        MinimumHeightRequest="44"
+                        CornerRadius="10"
+                        Clicked="OnMageClicked" />
+
+                <Button x:Name="StartButton"
+                        Grid.Row="5"
+                        Text="▶"
+                        FontSize="23"
+                        Padding="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        MinimumHeightRequest="44"
+                        CornerRadius="10"
+                        Clicked="OnStartClicked" />
+
+                <Button x:Name="SellButton"
+                        Grid.Row="6"
+                        Text="💰"
+                        FontSize="23"
+                        Padding="0"
+                        WidthRequest="44"
+                        HeightRequest="44"
+                        MinimumWidthRequest="44"
+                        MinimumHeightRequest="44"
+                        CornerRadius="10"
+                        Clicked="OnSellClicked" />
+
+            </Grid>
         </Grid>
-
-
     </Grid>
 
 </ContentPage>
