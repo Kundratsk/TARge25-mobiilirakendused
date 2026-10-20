@@ -90,7 +90,7 @@ public partial class MainPage : ContentPage
         _drawable.Shots.Clear();
         _sellMode = false;
         UpdateSellButton();
-        StartButton.Text = "▶ Start";
+        StartButton.Text = "▶";
         StatusLabel.Text = "Vali torn ja puuduta ruutu, et see paigutada.";
         UpdateLabels();
         BoardView.Invalidate();
@@ -166,15 +166,15 @@ public partial class MainPage : ContentPage
         {
             case GameState.NotStarted:
                 _game.Start();
-                StartButton.Text = "⏸ Paus";
+                StartButton.Text = "⏸";
                 break;
             case GameState.Running:
                 _game.Pause();
-                StartButton.Text = "▶ Jätka";
+                StartButton.Text = "▶";
                 break;
             case GameState.Paused:
                 _game.Resume();
-                StartButton.Text = "⏸ Paus";
+                StartButton.Text = "⏸";
                 break;
         }
     }
