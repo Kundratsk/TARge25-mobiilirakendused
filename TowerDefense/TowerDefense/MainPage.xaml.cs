@@ -12,6 +12,7 @@ public partial class MainPage : ContentPage
 
     private TowerType _selectedType = TowerType.Archer;
     private Theme _theme = Theme.All[1];   // vaikimisi "Tume"
+    private bool _sellMode = false;
 
     public MainPage()
     {
@@ -87,6 +88,8 @@ public partial class MainPage : ContentPage
 
         _game.Reset();
         _drawable.Shots.Clear();
+        _sellMode = false;
+        UpdateSellButton();
         StartButton.Text = "▶ Start";
         StatusLabel.Text = "Vali torn ja puuduta ruutu, et see paigutada.";
         UpdateLabels();
@@ -102,6 +105,25 @@ public partial class MainPage : ContentPage
 
         int column = (int)Math.Floor((p.Value.X - _drawable.OffsetX) / _drawable.CellSize);
         int row = (int)Math.Floor((p.Value.Y - _drawable.OffsetY) / _drawable.CellSize);
+
+        if (_sellMode)
+        {
+            Tower? tower = _game.GetTowerAt(column, row);
+
+            if (tower != null)
+            {
+                int value = tower.GetSellValue();
+                _game.SellTower(tower);
+                StatusLabel.Text = $"Müüdud: {tower.Name} (+ {value} 💰)";
+            }
+            else
+            {
+                StatusLabel.Text = "Selles ruudus pole torni";
+            }
+            UpdateLabels();
+            BoardView.Invalidate();
+            return;
+        }
 
         _game.TryPlaceTower(_selectedType, column, row, out string message);
         StatusLabel.Text = message;
@@ -120,6 +142,16 @@ public partial class MainPage : ContentPage
     {
         _selectedType = TowerType.Cannon;
         UpdateTowerButtons();
+    }
+    private void OnSellClicked(object? sender, EventArgs e)
+    {
+        _sellMode = !_sellMode;   // ! pöörab väärtuse ümber: false -> true, true -> false
+
+        StatusLabel.Text = _sellMode
+            ? "Müügirežiim: puuduta torni, mida müüa."
+            : "Vali torn ja puuduta ruutu, et see müüa.";
+
+        UpdateSellButton();
     }
 
     private void OnStartClicked(object? sender, EventArgs e)
@@ -160,6 +192,7 @@ public partial class MainPage : ContentPage
         StartButton.BackgroundColor = _theme.AccentColor;
         StartButton.TextColor = _theme.BackgroundColor;
         UpdateTowerButtons();
+        UpdateSellButton();
     }
 
     private void UpdateTowerButtons()
@@ -171,6 +204,11 @@ public partial class MainPage : ContentPage
 
         CannonButton.BackgroundColor = archer ? _theme.CardColor : _theme.AccentColor;
         CannonButton.TextColor = archer ? _theme.TextColor : _theme.BackgroundColor;
+    }
+    private void UpdateSellButton()
+    {
+        SellButton.BackgroundColor = _sellMode ? _theme.AccentColor : _theme.CardColor;
+        SellButton.TextColor = _sellMode ? _theme.BackgroundColor : _theme.TextColor;
     }
 
     private void UpdateLabels()

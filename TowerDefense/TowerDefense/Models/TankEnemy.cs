@@ -8,7 +8,7 @@ public class TankEnemy : Enemy
     public override string Symbol => "🐘";
 
     public TankEnemy(Point start)
-        : base("Tank", maxHealth: 150, speed: 0.6, reward: 40, start)
+        : base("Tank", maxHealth: 150, speed: 1.0, reward: 25, start)
     {
     }
 }
