@@ -144,6 +144,16 @@ public class Game
         return true;
     }
 
+    //Tornide müümine
+
+    public void SellTower(Tower tower)
+    {
+        if (_towers.Remove(tower))
+        {
+            Player.AddMoney(tower.GetSellValue());
+        }
+    }
+
     // ---------- Mängu uuendus (kutsutakse UI taimerist) ----------
 
     public void Update(double deltaSeconds)
