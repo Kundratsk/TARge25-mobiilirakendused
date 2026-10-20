@@ -143,6 +143,12 @@ public partial class MainPage : ContentPage
         _selectedType = TowerType.Cannon;
         UpdateTowerButtons();
     }
+
+    private void OnMageclicked(object? sender, EventArgs e)
+    {
+        _selectedType = TowerType.Mage;
+        UpdateTowerButtons();
+    }
     private void OnSellClicked(object? sender, EventArgs e)
     {
         _sellMode = !_sellMode;   // ! pöörab väärtuse ümber: false -> true, true -> false
