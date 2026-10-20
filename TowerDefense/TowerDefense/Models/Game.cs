@@ -5,19 +5,26 @@ namespace TowerDefense.Models;
 public class Game
 {
     // Mänguväli on ruudustik; torn asub ruudus (Column, Row)
-    public const int Columns = 7;
-    public const int Rows = 9;
-    public const int TotalWaves = 5;
+    public const int Columns = 9;
+    public const int Rows = 7;
+    public const int TotalWaves = 10;
 
     private const double SpawnInterval = 0.9;   // sekundit vaenlaste vahel
     private const double WaveDelay = 3.0;       // paus lainete vahel
 
     // Rada: vaenlased liiguvad nende punktide kaudu (veerg, rida)
     private readonly List<Point> _path = new()
-    {
-        new Point(0, 1), new Point(5, 1), new Point(5, 3), new Point(1, 3),
-        new Point(1, 5), new Point(5, 5), new Point(5, 8)
-    };
+{
+    new Point(0, 1),
+    new Point(6, 1),
+    new Point(6, 0),
+    new Point(8, 0),
+    new Point(8, 3),
+    new Point(0, 3),
+    new Point(0, 5),
+    new Point(7, 5),
+    new Point(7, 6)
+};
 
     private readonly List<Enemy> _enemies = new();
     private readonly List<Tower> _towers = new();
