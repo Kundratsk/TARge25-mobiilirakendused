@@ -50,7 +50,7 @@ namespace TowerDefense.Models
             if (target == null) return null;
 
             _cooldown = 1.0 / FireRate;
-            Attack(target);
+            Attack(target, enemies);
             return target;
         }
         // Vaikimisi sihib vaenlast, kes on rajal kõige kaugemal
@@ -60,6 +60,6 @@ namespace TowerDefense.Models
                    .FirstOrDefault();
 
         // Alamklassid saavad seda üle kirjutada (nt kahjustus mitmele vaenlasele)
-        protected virtual void Attack(Enemy target) => target.TakeDamage(Damage);
+        protected virtual void Attack(Enemy target,IEnumerable<Enemy> enemies) => target.TakeDamage(Damage);
     }
 }
