@@ -6,7 +6,7 @@ public class CannonTower : Tower
     public override string Symbol => "💣";
 
     public CannonTower(int column, int row)
-        : base("Kahur", cost: 120, range: 3.5, damage: 20, fireRate: 0.7, column, row)
+        : base("Kahur", cost: 120, range: 3.5, damage: 10, fireRate: 0.7, column, row)
     {
     }
     protected override void Attack(

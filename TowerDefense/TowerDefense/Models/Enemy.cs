@@ -6,7 +6,8 @@ public abstract class Enemy
 {
     public string Name { get; }
     public abstract string Symbol { get; }   // emoji, mida kuvame ekraanil
-    public int MaxHealth { get; }
+    public abstract string ImageName { get;  }
+    public int MaxHealth { get; private set; }
     public int Health { get; private set; }
     public double Speed { get; }             // ruutu sekundis
     public int Reward { get; }               // raha tapmise eest
@@ -70,7 +71,8 @@ public abstract class Enemy
     }
     public void IncreaseHealth()
     {
-         Math.Round(Health * 1.2);
+        MaxHealth = (int)Math.Round(MaxHealth * 1.2);
+        Health = (int)Math.Round(Health * 1.2);
     }
 
 }

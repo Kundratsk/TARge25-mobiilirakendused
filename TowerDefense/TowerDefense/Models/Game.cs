@@ -337,15 +337,17 @@ public class Game
         int n = CurrentWave;
 
         for (int i = 0; i < 3 + n * 2.5; i++)
-            _spawnQueue.Enqueue(() => new BasicEnemy(start));
+            _spawnQueue.Enqueue(() => StrengthenEnemy(new BasicEnemy(start)));
 
         if (n >= 2)
             for (int i = 0; i < n; i++)
-                _spawnQueue.Enqueue(() => new FastEnemy(start));
+                _spawnQueue.Enqueue(() => StrengthenEnemy(new FastEnemy(start)));
 
         if (n >= 3)
             for (int i = 0; i < n - 2; i++)
-                _spawnQueue.Enqueue(() => new TankEnemy(start));
+                _spawnQueue.Enqueue(() => StrengthenEnemy(new TankEnemy(start)));
+
+        
 
         WaveStarted?.Invoke(CurrentWave);
     }
@@ -355,15 +357,16 @@ public class Game
         State = won ? GameState.Won : GameState.Lost;
         GameEnded?.Invoke(won);
     }
-
-    public void getStrongerWaves()
+    private Enemy StrengthenEnemy(Enemy enemy)
     {
-        if (CurrentWave % 4 == 0)
+        int upgrades = CurrentWave / 5;
+
+        for (int i = 0; i < upgrades; i++)
         {
-            foreach (Enemy enemy in _enemies)
-            {
-                enemy.IncreaseHealth();
-            }
+            enemy.IncreaseHealth();
         }
+
+        return enemy;
     }
+
 }
