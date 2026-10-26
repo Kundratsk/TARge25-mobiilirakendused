@@ -8,7 +8,7 @@ public class Game
     // Mänguväli on ruudustik; torn asub ruudus (Column, Row)
     public const int Columns = 9;
     public const int Rows = 7;
-    public const int TotalWaves = 10;
+    public const int TotalWaves = 100;
 
     private const double SpawnInterval = 0.9;   // sekundit vaenlaste vahel
     private const double WaveDelay = 3.0;       // paus lainete vahel
