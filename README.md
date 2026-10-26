@@ -4,7 +4,7 @@ Tower Defense mäng, mis on tehtud **.NET MAUI** abil (C#). See on mu OOP (objek
 
 ## Mis mäng see on?
 
-Vaenlased liiguvad mööda rada sinu baasi poole. Sina paned rajast väljapoole torne, mis vaenlasi tulistavad. Kui vaenlane jõuab raja lõppu, kaotad ühe elu. Kui elud saavad otsa, kaotad mängu. Kui elad üle kõik 5 lainet, võidad.
+Vaenlased liiguvad mööda rada sinu baasi poole. Sina paned rajast väljapoole torne, mis vaenlasi tulistavad. Kui vaenlane jõuab raja lõppu, kaotad ühe elu. Kui elud saavad otsa, kaotad mängu. Kui elad üle kõik 100 lainet, võidad.
 
 ## Kuidas mängida
 
@@ -37,10 +37,10 @@ Iga laine toob rohkem vaenlasi. Kiired vaenlased tulevad alates 2. lainest ja ta
 
 ## Muud asjad mängus
 
-- 5 lainet
+- 100 lainet
 - Mänguväli on 7 × 9 ruudustik
 - Vaenlastel on elusriba
-- Torni lask on näha kollase joonena
+- Torni laske on näha 
 - Võidu korral saad boonuspunkte allesjäänud elude eest
 - Parim tulemus salvestatakse telefoni või arvutisse
 - Mitu värviteemat, mida saab ülevalt valida
@@ -87,6 +87,7 @@ Uue torni või vaenlase lisamiseks tee uus alamklass ja kirjuta konstruktoris v�
 - Tornide müümine
 - Rohkem tornitüüpe ja vaenlasi
 - Rohkem lainet ja uusi kaarte
+- Reaalselt teha, et vibu torn laseb nooli ja kahur mürske jne.
 
 ## Tehnoloogiad
 
