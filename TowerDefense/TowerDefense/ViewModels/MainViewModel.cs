@@ -27,6 +27,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _moneyText = "";
     [ObservableProperty] private string _scoreText = "";
     [ObservableProperty] private string _waveText = "";
+    [ObservableProperty] private string _bestScoreText = SettingsService.Current.BestScore.ToString();
     [ObservableProperty] private string _statusText = LocalizationService.Get("StartHint");
     [ObservableProperty] private string _startButtonText = "▶";
     [ObservableProperty] private TowerType _selectedType = TowerType.Archer;
@@ -108,7 +109,10 @@ public partial class MainViewModel : ObservableObject
         // Pooleli jäänud mängu salvestust pole enam vaja
         SaveGameService.Delete();
 
+        // Jätame tulemuse meelde enne dialoogi (dialoogi ajal mäng enam ei uuene)
         int score = Game.Player.Score;
+        int wave = Game.CurrentWave;
+        double seconds = Game.ElapsedSeconds;
 
         // Parim tulemus tuleb JSON-seadetest
         AppSettings settings = SettingsService.Current;
@@ -118,20 +122,57 @@ public partial class MainViewModel : ObservableObject
         {
             settings.BestScore = score;
             SettingsService.Save();
+            BestScoreText = score.ToString();
         }
 
         string title = LocalizationService.Get(won ? "Victory" : "Defeat");
         string message =
             LocalizationService.Get("ResultScore", score) + "\n" +
-            LocalizationService.Get("ResultTime", Game.ElapsedSeconds.ToString("F0")) + "\n" +
-            LocalizationService.Get("ResultWave", Game.CurrentWave, Game.TotalWaves) + "\n" +
+            LocalizationService.Get("ResultTime", seconds.ToString("F0")) + "\n" +
+            LocalizationService.Get("ResultWave", wave, Game.TotalWaves) + "\n" +
             (newBest
                 ? LocalizationService.Get("NewRecord")
-                : LocalizationService.Get("BestScore", best));
+                : LocalizationService.Get("BestScore", best)) +
+            "\n\n" + LocalizationService.Get("EnterName");
 
-        await Shell.Current.DisplayAlert(title, message, LocalizationService.Get("Ok"));
+        // Küsime mängija nime; "Jäta vahele" annab tulemuseks null
+        string? name = await Shell.Current.DisplayPromptAsync(
+            title,
+            message,
+            accept: LocalizationService.Get("Ok"),
+            cancel: LocalizationService.Get("Skip"),
+            placeholder: LocalizationService.Get("NamePlaceholder"),
+            maxLength: 20,
+            initialValue: settings.PlayerName);
+
+        int rank = 0;
+        if (name != null)
+        {
+            string typed = name.Trim();
+
+            // Tühja nime korral kasutame vaikenime, aga seda meelde ei jäta
+            if (typed.Length > 0)
+            {
+                settings.PlayerName = typed;
+                SettingsService.Save();
+            }
+
+            rank = LeaderboardService.Add(new ScoreEntry
+            {
+                Name = typed.Length > 0 ? typed : LocalizationService.Get("DefaultPlayerName"),
+                Score = score,
+                Wave = wave,
+                Won = won,
+                Seconds = seconds,
+                Date = DateTime.Now
+            });
+        }
 
         RestartGame();
+
+        // Kui tulemus mahtus edetabelisse, ütleme seda olekureal
+        if (rank > 0)
+            StatusText = LocalizationService.Get("LeaderboardRank", rank);
     }
 
     // Nullib mängu ja kogu sellega seotud UI oleku (kasutavad nii mängu lõpp kui 🔄 nupp)

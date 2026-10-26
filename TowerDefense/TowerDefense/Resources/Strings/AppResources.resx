@@ -52,11 +52,26 @@
 	<data name="ThemeDark" xml:space="preserve"><value>Tume</value></data>
 	<data name="ThemeColorful" xml:space="preserve"><value>Värviline</value></data>
 
-	<!-- Seadete leht (teeme järgmistes sammudes) -->
+	<!-- Seadete leht -->
 	<data name="SettingsTitle" xml:space="preserve"><value>Seaded</value></data>
 	<data name="LanguageLabel" xml:space="preserve"><value>Keel</value></data>
 	<data name="ThemeLabel" xml:space="preserve"><value>Teema</value></data>
 	<data name="SoundLabel" xml:space="preserve"><value>Heli</value></data>
 	<data name="VolumeLabel" xml:space="preserve"><value>Helitugevus</value></data>
 	<data name="Back" xml:space="preserve"><value>Tagasi</value></data>
+
+	<!-- Nimi ja edetabel -->
+	<data name="EnterName" xml:space="preserve"><value>Sisesta oma nimi, et tulemus edetabelisse salvestada:</value></data>
+	<data name="NamePlaceholder" xml:space="preserve"><value>Nimi</value></data>
+	<data name="Skip" xml:space="preserve"><value>Jäta vahele</value></data>
+	<data name="DefaultPlayerName" xml:space="preserve"><value>Mängija</value></data>
+	<data name="LeaderboardTitle" xml:space="preserve"><value>Edetabel</value></data>
+	<data name="LeaderboardEmpty" xml:space="preserve"><value>Tulemusi veel pole. Mängi mäng läbi!</value></data>
+	<data name="LeaderboardWave" xml:space="preserve"><value>Laine {0}/{1}</value></data>
+	<data name="LeaderboardRank" xml:space="preserve"><value>Edetabelis koht #{0}!</value></data>
+
+	<data name="DeleteTitle" xml:space="preserve"><value>Kustuta</value></data>
+	<data name="DeleteEntryMessage" xml:space="preserve"><value>Kas kustutada see tulemus ({0}, {1} punkti)?</value></data>
+	<data name="ClearAll" xml:space="preserve"><value>Kustuta kõik</value></data>
+	<data name="ClearAllMessage" xml:space="preserve"><value>Kas kustutada kõik tulemused ja nullida parim tulemus?</value></data>
 </root>

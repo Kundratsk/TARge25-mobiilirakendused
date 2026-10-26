@@ -1,4 +1,4 @@
-﻿
+﻿using IImage = Microsoft.Maui.Graphics.IImage;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Graphics.Platform;

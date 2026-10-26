@@ -79,11 +79,65 @@ namespace TowerDefense.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kustuta kõik.
+        /// </summary>
+        internal static string ClearAll {
+            get {
+                return ResourceManager.GetString("ClearAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kas kustutada kõik tulemused ja nullida parim tulemus?.
+        /// </summary>
+        internal static string ClearAllMessage {
+            get {
+                return ResourceManager.GetString("ClearAllMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mängija.
+        /// </summary>
+        internal static string DefaultPlayerName {
+            get {
+                return ResourceManager.GetString("DefaultPlayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 💀 Kaotus.
         /// </summary>
         internal static string Defeat {
             get {
                 return ResourceManager.GetString("Defeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kas kustutada see tulemus ({0}, {1} punkti)?.
+        /// </summary>
+        internal static string DeleteEntryMessage {
+            get {
+                return ResourceManager.GetString("DeleteEntryMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kustuta.
+        /// </summary>
+        internal static string DeleteTitle {
+            get {
+                return ResourceManager.GetString("DeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sisesta oma nimi, et tulemus edetabelisse salvestada:.
+        /// </summary>
+        internal static string EnterName {
+            get {
+                return ResourceManager.GetString("EnterName", resourceCulture);
             }
         }
         
@@ -111,6 +165,51 @@ namespace TowerDefense.Resources.Strings {
         internal static string LanguageLabel {
             get {
                 return ResourceManager.GetString("LanguageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tulemusi veel pole. Mängi mäng läbi!.
+        /// </summary>
+        internal static string LeaderboardEmpty {
+            get {
+                return ResourceManager.GetString("LeaderboardEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edetabelis koht #{0}!.
+        /// </summary>
+        internal static string LeaderboardRank {
+            get {
+                return ResourceManager.GetString("LeaderboardRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edetabel.
+        /// </summary>
+        internal static string LeaderboardTitle {
+            get {
+                return ResourceManager.GetString("LeaderboardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Laine {0}/{1}.
+        /// </summary>
+        internal static string LeaderboardWave {
+            get {
+                return ResourceManager.GetString("LeaderboardWave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nimi.
+        /// </summary>
+        internal static string NamePlaceholder {
+            get {
+                return ResourceManager.GetString("NamePlaceholder", resourceCulture);
             }
         }
         
@@ -237,6 +336,15 @@ namespace TowerDefense.Resources.Strings {
         internal static string SettingsTitle {
             get {
                 return ResourceManager.GetString("SettingsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Jäta vahele.
+        /// </summary>
+        internal static string Skip {
+            get {
+                return ResourceManager.GetString("Skip", resourceCulture);
             }
         }
         

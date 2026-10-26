@@ -27,7 +27,7 @@
 
         <!-- Ülemine statistika -->
         <Grid Grid.Row="0"
-              ColumnDefinitions="*,*,*,*"
+              ColumnDefinitions="*,*,*,*,*"
               ColumnSpacing="4">
 
             <Label Grid.Column="0"
@@ -57,6 +57,19 @@
                    VerticalTextAlignment="Center"
                    FontSize="14"
                    TextColor="{DynamicResource PrimaryText}" />
+
+            <!-- Parim tulemus; vajutus avab edetabeli -->
+            <Label Grid.Column="4"
+                   Text="{Binding BestScoreText, StringFormat='🏆 {0}'}"
+                   HorizontalTextAlignment="Center"
+                   VerticalTextAlignment="Center"
+                   FontSize="14"
+                   FontAttributes="Bold"
+                   TextColor="{DynamicResource AccentColor}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnLeaderboardTapped" />
+                </Label.GestureRecognizers>
+            </Label>
         </Grid>
 
         <!-- Suur mängulaud ja väike ikooniriba -->

@@ -52,11 +52,26 @@
 	<data name="ThemeDark" xml:space="preserve"><value>Dark</value></data>
 	<data name="ThemeColorful" xml:space="preserve"><value>Colorful</value></data>
 
-	<!-- Settings page (coming in later steps) -->
+	<!-- Settings page -->
 	<data name="SettingsTitle" xml:space="preserve"><value>Settings</value></data>
 	<data name="LanguageLabel" xml:space="preserve"><value>Language</value></data>
 	<data name="ThemeLabel" xml:space="preserve"><value>Theme</value></data>
 	<data name="SoundLabel" xml:space="preserve"><value>Sound</value></data>
 	<data name="VolumeLabel" xml:space="preserve"><value>Volume</value></data>
 	<data name="Back" xml:space="preserve"><value>Back</value></data>
+
+	<!-- Name and leaderboard -->
+	<data name="EnterName" xml:space="preserve"><value>Enter your name to save your result to the leaderboard:</value></data>
+	<data name="NamePlaceholder" xml:space="preserve"><value>Name</value></data>
+	<data name="Skip" xml:space="preserve"><value>Skip</value></data>
+	<data name="DefaultPlayerName" xml:space="preserve"><value>Player</value></data>
+	<data name="LeaderboardTitle" xml:space="preserve"><value>Leaderboard</value></data>
+	<data name="LeaderboardEmpty" xml:space="preserve"><value>No results yet. Finish a game!</value></data>
+	<data name="LeaderboardWave" xml:space="preserve"><value>Wave {0}/{1}</value></data>
+	<data name="LeaderboardRank" xml:space="preserve"><value>You are #{0} on the leaderboard!</value></data>
+
+	<data name="DeleteTitle" xml:space="preserve"><value>Delete</value></data>
+	<data name="DeleteEntryMessage" xml:space="preserve"><value>Delete this result ({0}, {1} points)?</value></data>
+	<data name="ClearAll" xml:space="preserve"><value>Clear all</value></data>
+	<data name="ClearAllMessage" xml:space="preserve"><value>Delete all results and reset the best score?</value></data>
 </root>

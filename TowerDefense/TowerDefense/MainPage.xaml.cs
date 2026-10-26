@@ -1,5 +1,4 @@
-﻿
-using TowerDefense.Models;
+﻿using TowerDefense.Models;
 using TowerDefense.Services;
 using TowerDefense.Themes;
 using TowerDefense.ViewModels;
@@ -70,6 +69,9 @@ public partial class MainPage : ContentPage
 
         _theme = LoadSavedTheme();
         ApplyTheme();
+
+        // Edetabelis võidi parim tulemus nullida
+        _vm.BestScoreText = SettingsService.Current.BestScore.ToString();
 
         if (_shownLanguage != LocalizationService.CurrentLanguage)
         {
@@ -151,14 +153,24 @@ public partial class MainPage : ContentPage
 
     private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        // Seadete ajaks peatame mängu
-        if (_vm.Game.State == Models.GameState.Running)
-            _vm.StartPauseCommand.Execute(null);
-
+        PauseIfRunning();
         await Navigation.PushAsync(new SettingsPage());
     }
 
+    private async void OnLeaderboardTapped(object? sender, TappedEventArgs e)
+    {
+        PauseIfRunning();
+        await Navigation.PushAsync(new LeaderboardPage());
+    }
+
     // ---------- Abimeetodid ----------
+
+    // Teiste lehtede ajaks peatame mängu, et vaenlased ei jookseks edasi
+    private void PauseIfRunning()
+    {
+        if (_vm.Game.State == Models.GameState.Running)
+            _vm.StartPauseCommand.Execute(null);
+    }
 
     private static Theme LoadSavedTheme()
     {
