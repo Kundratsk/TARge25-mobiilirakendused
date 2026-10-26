@@ -33,7 +33,7 @@ public partial class MainPage : ContentPage
 
         BoardView.Drawable = _drawable;
 
-        // Laadime vaenlase pildid pärast lehe laadimist
+        // Laadime mängupildid pärast lehe laadimist
         Loaded += async (_, _) =>
         {
             await _drawable.LoadEnemyImagesAsync();
@@ -116,27 +116,19 @@ public partial class MainPage : ContentPage
 
     private void OnTicked(double dt)
     {
-        // Vähendame laskujoonte eluiga
-        for (int i = _drawable.Shots.Count - 1; i >= 0; i--)
-        {
-            _drawable.Shots[i].Ttl -= dt;
+        // Uuendame mürskude liikumist
+        _drawable.UpdateShots(dt);
 
-            if (_drawable.Shots[i].Ttl <= 0)
-                _drawable.Shots.RemoveAt(i);
-        }
-
+        // Joonistame mängulaua uuesti
         BoardView.Invalidate();
     }
 
     private void OnShotFired(Tower tower, Enemy enemy)
     {
-        _drawable.Shots.Add(new Shot
-        {
-            X1 = tower.Column + 0.5f,
-            Y1 = tower.Row + 0.5f,
-            X2 = (float)enemy.X + 0.5f,
-            Y2 = (float)enemy.Y + 0.5f
-        });
+        // Lisame mürsu, mis liigub tornist vaenlaseni
+        _drawable.AddShot(tower, enemy);
+
+        BoardView.Invalidate();
     }
 
     // ---------- UI sündmused ----------

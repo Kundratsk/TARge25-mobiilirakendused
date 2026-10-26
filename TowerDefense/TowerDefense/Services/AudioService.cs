@@ -1,76 +1,108 @@
-﻿using Plugin.Maui.Audio;
+﻿
+using Plugin.Maui.Audio;
 
 namespace TowerDefense.Services;
 
-// Heliefektid ja taustamuusika; arvestab seadete lülitit ja helitugevust
 public static class AudioService
 {
     private static IAudioPlayer? _music;
+    private static Stream? _musicStream;
     private static DateTime _lastShot = DateTime.MinValue;
 
-    // Muusika on efektidest vaiksem, et see ei summutaks mängu
     private const double MusicVolumeFactor = 0.5;
-
-    // ---------- Heliefektid ----------
 
     public static async Task PlayEffectAsync(string fileName)
     {
-        if (!SettingsService.Current.SoundEnabled) return;
+        if (!SettingsService.Current.SoundEnabled)
+            return;
 
         try
         {
-            Stream stream = await FileSystem.OpenAppPackageFileAsync(fileName);
-            IAudioPlayer player = AudioManager.Current.CreatePlayer(stream);
+            Stream stream =
+                await FileSystem.OpenAppPackageFileAsync(fileName);
+
+            IAudioPlayer player;
+
+            try
+            {
+                player = AudioManager.Current.CreatePlayer(stream);
+            }
+            catch
+            {
+                stream.Dispose();
+                throw;
+            }
+
             player.Volume = SettingsService.Current.Volume;
 
-            // Kui heli on lõppenud, vabastame mängija ja voo
             player.PlaybackEnded += (_, _) =>
             {
-                player.Dispose();
-                stream.Dispose();
+                try
+                {
+                    stream.Dispose();
+                }
+                catch
+                {
+                    // Voog võib olla juba suletud.
+                }
             };
 
             player.Play();
         }
-        catch
+        catch (Exception ex)
         {
-            // Heli viga ei tohi mängu kokku jooksutada
+            System.Diagnostics.Debug.WriteLine(
+                $"Heliefekti viga ({fileName}): {ex.Message}");
         }
     }
 
-    // Lasuhelile on piirang: mitu tuld korraga ei tee müra
     public static async Task PlayShotAsync()
     {
         DateTime now = DateTime.UtcNow;
-        if ((now - _lastShot).TotalMilliseconds < 120) return;
+
+        if ((now - _lastShot).TotalMilliseconds < 120)
+            return;
+
         _lastShot = now;
 
         await PlayEffectAsync("shoot.wav");
     }
 
-    // ---------- Taustamuusika ----------
-
     public static async Task StartMusicAsync()
     {
-        if (!SettingsService.Current.SoundEnabled) return;
+        if (!SettingsService.Current.SoundEnabled)
+            return;
 
         try
         {
             if (_music == null)
             {
-                Stream stream = await FileSystem.OpenAppPackageFileAsync("music.wav");
-                _music = AudioManager.Current.CreatePlayer(stream);
-                _music.Loop = true;
+                _musicStream =
+                    await FileSystem.OpenAppPackageFileAsync("music.wav");
+
+                try
+                {
+                    _music = AudioManager.Current.CreatePlayer(_musicStream);
+                    _music.Loop = true;
+                }
+                catch
+                {
+                    _musicStream.Dispose();
+                    _musicStream = null;
+                    throw;
+                }
             }
 
-            _music.Volume = SettingsService.Current.Volume * MusicVolumeFactor;
+            _music.Volume =
+                SettingsService.Current.Volume * MusicVolumeFactor;
 
             if (!_music.IsPlaying)
                 _music.Play();
         }
-        catch
+        catch (Exception ex)
         {
-            // Heli viga ei tohi mängu kokku jooksutada
+            System.Diagnostics.Debug.WriteLine(
+                $"Taustamuusika viga: {ex.Message}");
         }
     }
 
@@ -78,10 +110,14 @@ public static class AudioService
     {
         try
         {
-            if (_music is { IsPlaying: true })
+            if (_music?.IsPlaying == true)
                 _music.Pause();
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"Muusika peatamise viga: {ex.Message}");
+        }
     }
 
     public static void StopMusic()
@@ -90,15 +126,19 @@ public static class AudioService
         {
             _music?.Stop();
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"Muusika peatamise viga: {ex.Message}");
+        }
     }
 
-    // Kutsutakse siis, kui kasutaja muudab seadetes heli lülitit või helitugevust
     public static void ApplySettings()
     {
         try
         {
-            if (_music == null) return;
+            if (_music == null)
+                return;
 
             if (!SettingsService.Current.SoundEnabled)
             {
@@ -106,8 +146,13 @@ public static class AudioService
                 return;
             }
 
-            _music.Volume = SettingsService.Current.Volume * MusicVolumeFactor;
+            _music.Volume =
+                SettingsService.Current.Volume * MusicVolumeFactor;
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"Heliseadete rakendamise viga: {ex.Message}");
+        }
     }
 }
