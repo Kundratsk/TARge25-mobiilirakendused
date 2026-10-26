@@ -11,6 +11,7 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly IDispatcherTimer _timer;
     private DateTime _lastTick;
+    private int _lastLives;   // et märgata, millal elu kaoti (heli jaoks)
 
     public Game Game { get; }
 
@@ -47,7 +48,7 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel()
     {
         Game = new Game(new Player("Mängija"));
-        Game.TowerFired += (tower, enemy) => ShotFired?.Invoke(tower, enemy);
+        Game.TowerFired += OnTowerFired;
         Game.GameEnded += OnGameEnded;
 
         // Kui eelmisest korrast on pooleli jäänud mäng, taastame selle (jääb pausile)
@@ -58,6 +59,8 @@ public partial class MainViewModel : ObservableObject
             StartButtonText = "▶";
             StatusText = LocalizationService.Get("GameRestored");
         }
+
+        _lastLives = Game.Player.Lives;
 
         _lastTick = DateTime.UtcNow;
         _timer = Dispatcher.GetForCurrentThread()!.CreateTimer();
@@ -77,15 +80,32 @@ public partial class MainViewModel : ObservableObject
         _lastTick = now;
 
         Game.Update(dt);
+
+        // Elu kaotus: heli (mitte siis, kui mäng just lõppes, sest siis kõlab kaotuse heli)
+        int lives = Game.Player.Lives;
+        if (lives < _lastLives && Game.State == GameState.Running)
+            _ = AudioService.PlayEffectAsync("life_lost.wav");
+        _lastLives = lives;
+
         Ticked?.Invoke(dt);
 
         UpdateLabels();
         RedrawRequested?.Invoke();
     }
 
+    private void OnTowerFired(Tower tower, Enemy enemy)
+    {
+        ShotFired?.Invoke(tower, enemy);
+        _ = AudioService.PlayShotAsync();   // "_ =" tähendab: ei oota heli lõppu
+    }
+
     private async void OnGameEnded(bool won)
     {
-        // Mäng sai läbi, seega pooleli jäänud mängu salvestust pole enam vaja
+        // Mäng sai läbi: muusika peatub, kõlab võidu- või kaotusheli
+        AudioService.StopMusic();
+        _ = AudioService.PlayEffectAsync(won ? "win.wav" : "lose.wav");
+
+        // Pooleli jäänud mängu salvestust pole enam vaja
         SaveGameService.Delete();
 
         int score = Game.Player.Score;
@@ -117,7 +137,11 @@ public partial class MainViewModel : ObservableObject
     // Nullib mängu ja kogu sellega seotud UI oleku (kasutavad nii mängu lõpp kui 🔄 nupp)
     private void RestartGame()
     {
+        AudioService.StopMusic();
+
         Game.Reset();
+        _lastLives = Game.Player.Lives;
+
         GameReset?.Invoke();
         IsSellMode = false;
         StartButtonText = "▶";
@@ -165,15 +189,18 @@ public partial class MainViewModel : ObservableObject
             case GameState.NotStarted:
                 Game.Start();
                 StartButtonText = "⏸";
+                _ = AudioService.StartMusicAsync();
                 break;
             case GameState.Running:
                 Game.Pause();
                 StartButtonText = "▶";
+                AudioService.PauseMusic();
                 SaveProgress();   // pausile panemisel salvestame
                 break;
             case GameState.Paused:
                 Game.Resume();
                 StartButtonText = "⏸";
+                _ = AudioService.StartMusicAsync();
                 break;
         }
     }
@@ -217,6 +244,7 @@ public partial class MainViewModel : ObservableObject
                 string name = Game.GetTowerName(tower);
                 Game.SellTower(tower);
                 StatusText = LocalizationService.Get("TowerSold", name, value);
+                _ = AudioService.PlayEffectAsync("sell.wav");
             }
             else
             {
@@ -225,8 +253,11 @@ public partial class MainViewModel : ObservableObject
         }
         else
         {
-            Game.TryPlaceTower(SelectedType, column, row, out string message);
+            bool placed = Game.TryPlaceTower(SelectedType, column, row, out string message);
             StatusText = message;
+
+            if (placed)
+                _ = AudioService.PlayEffectAsync("place.wav");
         }
 
         UpdateLabels();

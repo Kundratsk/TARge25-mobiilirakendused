@@ -70,17 +70,34 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // ---------- Akna sündmused (salvestamine) ----------
+    // ---------- Akna sündmused (salvestamine ja heli) ----------
 
     private void OnPageLoaded(object? sender, EventArgs e)
     {
         if (_windowHooked || Window == null) return;
         _windowHooked = true;
 
-        // Salvestame, kui aken kaotab fookuse, rakendus läheb taustale või aken suletakse
+        // Aken kaotab fookuse: salvestame
         Window.Deactivated += (_, _) => _vm.SaveProgress();
-        Window.Stopped += (_, _) => _vm.SaveProgress();
-        Window.Destroying += (_, _) => _vm.SaveProgress();
+
+        // Rakendus läheb taustale: paneme mängu pausile (ka muusika) ja salvestame
+        Window.Stopped += (_, _) => PauseAndSave();
+
+        // Aken suletakse: salvestame ja vaigistame muusika
+        Window.Destroying += (_, _) =>
+        {
+            _vm.SaveProgress();
+            AudioService.StopMusic();
+        };
+    }
+
+    // Käimasoleva mängu paneb pausile (see peatab ka muusika ja salvestab); muul juhul lihtsalt salvestab
+    private void PauseAndSave()
+    {
+        if (_vm.Game.State == Models.GameState.Running)
+            _vm.StartPauseCommand.Execute(null);
+        else
+            _vm.SaveProgress();
     }
 
     // ---------- ViewModeli sündmused ----------

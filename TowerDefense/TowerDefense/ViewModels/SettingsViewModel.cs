@@ -30,6 +30,7 @@ public partial class SettingsViewModel : ObservableObject
     {
         SettingsService.Current.SoundEnabled = value;
         SettingsService.Save();
+        AudioService.ApplySettings();   // lülitab muusika kohe sisse/välja
     }
 
     // Kutsutakse automaatselt, kui Volume muutub.
@@ -37,6 +38,7 @@ public partial class SettingsViewModel : ObservableObject
     partial void OnVolumeChanged(double value)
     {
         SettingsService.Current.Volume = value;
+        AudioService.ApplySettings();   // muusika helitugevus muutub lohistamise ajal
     }
 
     public void RefreshTexts()

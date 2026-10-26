@@ -94,6 +94,9 @@ public partial class SettingsPage : ContentPage
     private void OnVolumeDragCompleted(object? sender, EventArgs e)
     {
         SettingsService.Save();
+
+        // Proovihelin, et kuuleksid, kui vali helitugevus on
+        _ = AudioService.PlayEffectAsync("place.wav");
     }
 
     private async void OnBackClicked(object? sender, EventArgs e)
