@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TowerDefense.ViewModels"
+             x:Class="TowerDefense.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             BackgroundColor="{DynamicResource PageBackground}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Ülariba: tagasi nupp ja pealkiri -->
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Button Grid.Column="0"
+                        Text="{Binding BackText}"
+                        BackgroundColor="{DynamicResource CardColor}"
+                        TextColor="{DynamicResource PrimaryText}"
+                        CornerRadius="10"
+                        Clicked="OnBackClicked" />
+
+                <Label Grid.Column="1"
+                       Text="{Binding TitleText}"
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       VerticalTextAlignment="Center"
+                       TextColor="{DynamicResource PrimaryText}" />
+            </Grid>
+
+            <!-- Keel -->
+            <Label Text="{Binding LanguageLabel}"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+            <Picker x:Name="LanguagePicker"
+                    TextColor="{DynamicResource PrimaryText}"
+                    SelectedIndexChanged="OnLanguagePickerChanged" />
+
+            <!-- Teema -->
+            <Label Text="{Binding ThemeLabel}"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+            <Picker x:Name="ThemePicker"
+                    TextColor="{DynamicResource PrimaryText}"
+                    SelectedIndexChanged="OnThemePickerChanged" />
+
+            <!-- Heli sisse/välja -->
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                       Text="{Binding SoundLabel}"
+                       FontSize="14"
+                       VerticalTextAlignment="Center"
+                       TextColor="{DynamicResource PrimaryText}" />
+                <Switch Grid.Column="1"
+                        IsToggled="{Binding SoundEnabled}"
+                        OnColor="{DynamicResource AccentColor}" />
+            </Grid>
+
+            <!-- Helitugevus (töötab ainult siis, kui heli on sees) -->
+            <Label Text="{Binding VolumeLabel}"
+                   FontSize="14"
+                   TextColor="{DynamicResource PrimaryText}" />
+            <Slider Minimum="0"
+                    Maximum="1"
+                    Value="{Binding Volume}"
+                    IsEnabled="{Binding SoundEnabled}"
+                    MinimumTrackColor="{DynamicResource AccentColor}"
+                    ThumbColor="{DynamicResource AccentColor}"
+                    DragCompleted="OnVolumeDragCompleted" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

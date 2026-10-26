@@ -1,4 +1,5 @@
 ﻿using TowerDefense.Models;
+using TowerDefense.Services;
 using TowerDefense.Themes;
 using TowerDefense.ViewModels;
 
@@ -8,11 +9,16 @@ public partial class MainPage : ContentPage
 {
     private readonly MainViewModel _vm;
     private readonly GameDrawable _drawable;
-    private Theme _theme = Theme.All[1];   // vaikimisi "Tume"
+    private Theme _theme;
+    private string _shownLanguage;
+    private bool _windowHooked;
 
     public MainPage()
     {
         InitializeComponent();
+
+        _theme = LoadSavedTheme();
+        _shownLanguage = LocalizationService.CurrentLanguage;
 
         // ViewModel on kogu mängu "aju"; leht ainult näitab seda
         _vm = new MainViewModel();
@@ -27,9 +33,54 @@ public partial class MainPage : ContentPage
         _vm.GameReset += () => _drawable.Shots.Clear();
         _vm.RedrawRequested += () => BoardView.Invalidate();
 
-        ThemePicker.ItemsSource = Theme.All.Select(t => t.Name).ToList();
-        ThemePicker.SelectedIndex = 1;   // käivitab OnThemeChanged
+        // Kui valitud torn või müügirežiim muutub, värvime nupud uuesti
+        _vm.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(MainViewModel.SelectedType) ||
+                e.PropertyName == nameof(MainViewModel.IsSellMode))
+            {
+                UpdateButtons();
+            }
+        };
+
         ApplyTheme();
+
+        // Aken on kättesaadav alles pärast lehe laadimist
+        Loaded += OnPageLoaded;
+    }
+
+    // ---------- Elutsükkel ----------
+
+    // Kutsutakse iga kord, kui leht nähtavale tuleb (ka seadete lehelt tagasi tulles)
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // Seadetes võis teema muutuda
+        _theme = LoadSavedTheme();
+        ApplyTheme();
+
+        // Seadetes võis keel muutuda: värskendame olekurea teksti
+        if (_shownLanguage != LocalizationService.CurrentLanguage)
+        {
+            _shownLanguage = LocalizationService.CurrentLanguage;
+            _vm.StatusText = _vm.IsSellMode
+                ? LocalizationService.Get("SellModeOn")
+                : LocalizationService.Get("StartHint");
+        }
+    }
+
+    // ---------- Akna sündmused (salvestamine) ----------
+
+    private void OnPageLoaded(object? sender, EventArgs e)
+    {
+        if (_windowHooked || Window == null) return;
+        _windowHooked = true;
+
+        // Salvestame, kui aken kaotab fookuse, rakendus läheb taustale või aken suletakse
+        Window.Deactivated += (_, _) => _vm.SaveProgress();
+        Window.Stopped += (_, _) => _vm.SaveProgress();
+        Window.Destroying += (_, _) => _vm.SaveProgress();
     }
 
     // ---------- ViewModeli sündmused ----------
@@ -70,18 +121,44 @@ public partial class MainPage : ContentPage
         _vm.TapCell(column, row);
     }
 
-    private void OnThemeChanged(object? sender, EventArgs e)
+    private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        if (ThemePicker.SelectedIndex < 0) return;
+        // Seadete ajaks panen mängu pausile, et vaenlased ei jookseks edasi
+        if (_vm.Game.State == Models.GameState.Running)
+            _vm.StartPauseCommand.Execute(null);
 
-        _theme = Theme.All[ThemePicker.SelectedIndex];
-        ApplyTheme();
+        await Navigation.PushAsync(new SettingsPage());
+    }
+
+    // ---------- Abimeetodid ----------
+
+    private static Theme LoadSavedTheme()
+    {
+        int index = Math.Clamp(
+            SettingsService.Current.ThemeIndex, 0, Theme.All.Count - 1);
+        return Theme.All[index];
     }
 
     private void ApplyTheme()
     {
         _theme.Apply(this);
         _drawable.Theme = _theme;
+        UpdateButtons();
         BoardView.Invalidate();
+    }
+
+    private void UpdateButtons()
+    {
+        SetSelected(ArcherButton, _vm.IsArcherSelected);
+        SetSelected(CannonButton, _vm.IsCannonSelected);
+        SetSelected(MageButton, _vm.IsMageSelected);
+        SetSelected(SellButton, _vm.IsSellMode);
+    }
+
+    // Valitud nupp saab rõhuvärvi, ülejäänud kaardivärvi
+    private void SetSelected(Button button, bool selected)
+    {
+        button.BackgroundColor = selected ? _theme.AccentColor : _theme.CardColor;
+        button.TextColor = selected ? _theme.BackgroundColor : _theme.TextColor;
     }
 }

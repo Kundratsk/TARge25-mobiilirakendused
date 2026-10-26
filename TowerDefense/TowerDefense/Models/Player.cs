@@ -30,4 +30,12 @@ public class Player
 
     public void LoseLife(int amount = 1)
         => Lives = Math.Max(0, Lives - amount);
+
+    // Salvestatud mängu taastamiseks (setterid on privaatsed, seega läbi selle meetodi)
+    public void Restore(int lives, int money, int score)
+    {
+        Lives = lives;
+        Money = money;
+        Score = score;
+    }
 }

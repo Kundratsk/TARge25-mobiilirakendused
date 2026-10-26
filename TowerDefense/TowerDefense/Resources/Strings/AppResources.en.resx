@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<!-- Status line -->
+	<data name="StartHint" xml:space="preserve"><value>Pick a tower and tap a cell to place it.</value></data>
+	<data name="GameRestored" xml:space="preserve"><value>Game restored. Press ▶ to continue.</value></data>
+	<data name="SellModeOn" xml:space="preserve"><value>Sell mode: tap the tower you want to sell.</value></data>
+	<data name="TowerSold" xml:space="preserve"><value>Sold: {0} (+ {1} 💰)</value></data>
+	<data name="NoTowerHere" xml:space="preserve"><value>There is no tower in this cell</value></data>
+
+	<!-- Game over dialog -->
+	<data name="Victory" xml:space="preserve"><value>🎉 Victory!</value></data>
+	<data name="Defeat" xml:space="preserve"><value>💀 Defeat</value></data>
+	<data name="ResultScore" xml:space="preserve"><value>Score: {0}</value></data>
+	<data name="ResultTime" xml:space="preserve"><value>Time: {0} s</value></data>
+	<data name="ResultWave" xml:space="preserve"><value>Wave: {0}/{1}</value></data>
+	<data name="NewRecord" xml:space="preserve"><value>New record!</value></data>
+	<data name="BestScore" xml:space="preserve"><value>Best score: {0}</value></data>
+	<data name="Ok" xml:space="preserve"><value>OK</value></data>
+
+	<!-- Restart -->
+	<data name="ResetTitle" xml:space="preserve"><value>Start over</value></data>
+	<data name="ResetMessage" xml:space="preserve"><value>End the current game and start from scratch?</value></data>
+	<data name="Yes" xml:space="preserve"><value>Yes</value></data>
+	<data name="No" xml:space="preserve"><value>No</value></data>
+
+	<!-- Tower placement messages -->
+	<data name="GameIsOver" xml:space="preserve"><value>The game is over.</value></data>
+	<data name="OutOfBounds" xml:space="preserve"><value>Outside the game area.</value></data>
+	<data name="OnPath" xml:space="preserve"><value>You can't build on the path.</value></data>
+	<data name="TowerExists" xml:space="preserve"><value>There is already a tower in this cell.</value></data>
+	<data name="NotEnoughMoney" xml:space="preserve"><value>Not enough money (need {0}).</value></data>
+	<data name="TowerPlaced" xml:space="preserve"><value>{0} placed.</value></data>
+
+	<!-- Tower and theme names -->
+	<data name="TowerArcher" xml:space="preserve"><value>Archer</value></data>
+	<data name="TowerCannon" xml:space="preserve"><value>Cannon</value></data>
+	<data name="TowerMage" xml:space="preserve"><value>Mage</value></data>
+	<data name="ThemeLight" xml:space="preserve"><value>Light</value></data>
+	<data name="ThemeDark" xml:space="preserve"><value>Dark</value></data>
+	<data name="ThemeColorful" xml:space="preserve"><value>Colorful</value></data>
+
+	<!-- Settings page (coming in later steps) -->
+	<data name="SettingsTitle" xml:space="preserve"><value>Settings</value></data>
+	<data name="LanguageLabel" xml:space="preserve"><value>Language</value></data>
+	<data name="ThemeLabel" xml:space="preserve"><value>Theme</value></data>
+	<data name="SoundLabel" xml:space="preserve"><value>Sound</value></data>
+	<data name="VolumeLabel" xml:space="preserve"><value>Volume</value></data>
+	<data name="Back" xml:space="preserve"><value>Back</value></data>
+</root>

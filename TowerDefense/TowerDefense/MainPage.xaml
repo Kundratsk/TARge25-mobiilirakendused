@@ -18,8 +18,6 @@
             <Setter Property="MinimumWidthRequest" Value="44" />
             <Setter Property="MinimumHeightRequest" Value="44" />
             <Setter Property="CornerRadius" Value="10" />
-            <Setter Property="BackgroundColor" Value="{DynamicResource CardColor}" />
-            <Setter Property="TextColor" Value="{DynamicResource PrimaryText}" />
         </Style>
     </ContentPage.Resources>
 
@@ -29,7 +27,7 @@
 
         <!-- Ülemine statistika -->
         <Grid Grid.Row="0"
-              ColumnDefinitions="*,*,*,*,Auto"
+              ColumnDefinitions="*,*,*,*"
               ColumnSpacing="4">
 
             <Label Grid.Column="0"
@@ -59,15 +57,6 @@
                    VerticalTextAlignment="Center"
                    FontSize="14"
                    TextColor="{DynamicResource PrimaryText}" />
-
-            <Picker x:Name="ThemePicker"
-                    Grid.Column="4"
-                    Title="🎨"
-                    WidthRequest="48"
-                    FontSize="12"
-                    TextColor="{DynamicResource PrimaryText}"
-                    TitleColor="{DynamicResource PrimaryText}"
-                    SelectedIndexChanged="OnThemeChanged" />
         </Grid>
 
         <!-- Suur mängulaud ja väike ikooniriba -->
@@ -100,66 +89,60 @@
                 </GraphicsView>
             </Grid>
 
-            <!-- Väikesed ikooninupud -->
+            <!-- Väikesed ikooninupud (valikunuppude värvid seab MainPage.xaml.cs -> UpdateButtons) -->
             <Grid Grid.Column="1"
-                  RowDefinitions="*,Auto,Auto,Auto,*,Auto,Auto,*"
+                  RowDefinitions="*,Auto,Auto,Auto,*,Auto,Auto,Auto,Auto,*"
                   RowSpacing="6">
 
-                <!-- Valitud torni nupp muutub esiletõstetuks DataTrigger'i abil -->
-                <Button Grid.Row="1"
+                <Button x:Name="ArcherButton"
+                        Grid.Row="1"
                         Text="🏹"
                         Style="{StaticResource IconButton}"
-                        Command="{Binding SelectArcherCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsArcherSelected}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource AccentColor}" />
-                            <Setter Property="TextColor" Value="{DynamicResource PageBackground}" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        Command="{Binding SelectArcherCommand}" />
 
-                <Button Grid.Row="2"
+                <Button x:Name="CannonButton"
+                        Grid.Row="2"
                         Text="💣"
                         Style="{StaticResource IconButton}"
-                        Command="{Binding SelectCannonCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsCannonSelected}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource AccentColor}" />
-                            <Setter Property="TextColor" Value="{DynamicResource PageBackground}" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        Command="{Binding SelectCannonCommand}" />
 
-                <Button Grid.Row="3"
+                <Button x:Name="MageButton"
+                        Grid.Row="3"
                         Text="🧙"
                         Style="{StaticResource IconButton}"
-                        Command="{Binding SelectMageCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsMageSelected}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource AccentColor}" />
-                            <Setter Property="TextColor" Value="{DynamicResource PageBackground}" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        Command="{Binding SelectMageCommand}" />
 
-                <Button Grid.Row="5"
+                <Button x:Name="StartButton"
+                        Grid.Row="5"
                         Text="{Binding StartButtonText}"
                         Style="{StaticResource IconButton}"
                         BackgroundColor="{DynamicResource AccentColor}"
                         TextColor="{DynamicResource PageBackground}"
                         Command="{Binding StartPauseCommand}" />
 
-                <Button Grid.Row="6"
+                <Button x:Name="SellButton"
+                        Grid.Row="6"
                         Text="💰"
                         Style="{StaticResource IconButton}"
-                        Command="{Binding ToggleSellCommand}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" Binding="{Binding IsSellMode}" Value="True">
-                            <Setter Property="BackgroundColor" Value="{DynamicResource AccentColor}" />
-                            <Setter Property="TextColor" Value="{DynamicResource PageBackground}" />
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
+                        Command="{Binding ToggleSellCommand}" />
+
+                <!-- Uuesti alustamise nupp (küsib enne kinnitust) -->
+                <Button x:Name="ResetButton"
+                        Grid.Row="7"
+                        Text="🔄"
+                        Style="{StaticResource IconButton}"
+                        BackgroundColor="{DynamicResource CardColor}"
+                        TextColor="{DynamicResource PrimaryText}"
+                        Command="{Binding ResetGameCommand}" />
+
+                <!-- Seadete leht -->
+                <Button x:Name="SettingsButton"
+                        Grid.Row="8"
+                        Text="⚙️"
+                        Style="{StaticResource IconButton}"
+                        BackgroundColor="{DynamicResource CardColor}"
+                        TextColor="{DynamicResource PrimaryText}"
+                        Clicked="OnSettingsClicked" />
 
             </Grid>
         </Grid>

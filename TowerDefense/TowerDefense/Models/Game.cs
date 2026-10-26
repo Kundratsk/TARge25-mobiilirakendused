@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Graphics;
+using TowerDefense.Services;
 
 namespace TowerDefense.Models;
 
@@ -94,10 +95,79 @@ public class Game
         {
             foreach (Enemy enemy in _enemies)
             {
-                
+
             }
         }
     }
+
+    // ---------- Salvestamine ja laadimine ----------
+
+    // Kogub kokku kõik, mis on vaja mängu hiljem taastamiseks
+    public SaveData CreateSaveData()
+    {
+        var data = new SaveData
+        {
+            // Kui laine on pooleli, laeme selle uuesti algusest: seega salvestame eelmise laine numbri
+            Wave = _waveInProgress ? Math.Max(0, CurrentWave - 1) : CurrentWave,
+            Lives = Player.Lives,
+            Money = Player.Money,
+            Score = Player.Score,
+            ElapsedSeconds = ElapsedSeconds
+        };
+
+        foreach (Tower tower in _towers)
+        {
+            data.Towers.Add(new SavedTower
+            {
+                Type = GetTowerType(tower),
+                Column = tower.Column,
+                Row = tower.Row
+            });
+        }
+
+        return data;
+    }
+
+    // Taastab mängu salvestusest; mäng jääb pausile, kuni mängija vajutab ▶
+    public void LoadFrom(SaveData data)
+    {
+        Reset();
+
+        Player.Restore(data.Lives, data.Money, data.Score);
+        CurrentWave = data.Wave;
+        ElapsedSeconds = data.ElapsedSeconds;
+
+        foreach (SavedTower saved in data.Towers)
+            _towers.Add(CreateTower(saved.Type, saved.Column, saved.Row));
+
+        State = GameState.Paused;
+    }
+
+    // Torni objektist tagasi tüüp (vajalik salvestamisel)
+    private static TowerType GetTowerType(Tower tower) => tower switch
+    {
+        ArcherTower => TowerType.Archer,
+        CannonTower => TowerType.Cannon,
+        MageTower => TowerType.Mage,
+        _ => throw new ArgumentException("Tundmatu torni klass.", nameof(tower))
+    };
+
+    // Torni nimi kasutaja keeles (teadetes näitamiseks)
+    public static string GetTowerName(Tower tower) => GetTowerType(tower) switch
+    {
+        TowerType.Archer => LocalizationService.Get("TowerArcher"),
+        TowerType.Cannon => LocalizationService.Get("TowerCannon"),
+        TowerType.Mage => LocalizationService.Get("TowerMage"),
+        _ => tower.Name
+    };
+
+    private static Tower CreateTower(TowerType type, int column, int row) => type switch
+    {
+        TowerType.Archer => new ArcherTower(column, row),
+        TowerType.Cannon => new CannonTower(column, row),
+        TowerType.Mage => new MageTower(column, row),
+        _ => throw new ArgumentOutOfRangeException(nameof(type), type, "Tundmatu torni tüüp.")
+    };
 
     // ---------- Tornide paigutamine ----------
 
@@ -123,45 +193,38 @@ public class Game
     {
         if (State != GameState.Running && State != GameState.Paused && State != GameState.NotStarted)
         {
-            message = "Mäng on läbi.";
+            message = LocalizationService.Get("GameIsOver");
             return false;
         }
 
         if (column < 0 || column >= Columns || row < 0 || row >= Rows)
         {
-            message = "Väljaspool mänguala.";
+            message = LocalizationService.Get("OutOfBounds");
             return false;
         }
 
         if (IsPathCell(column, row))
         {
-            message = "Rajale ei saa torni panna.";
+            message = LocalizationService.Get("OnPath");
             return false;
         }
 
         if (GetTowerAt(column, row) != null)
         {
-            message = "Selles ruudus on juba torn.";
+            message = LocalizationService.Get("TowerExists");
             return false;
         }
 
-        Tower tower = type switch
-        {
-            TowerType.Archer => new ArcherTower(column, row),
-            TowerType.Cannon => new CannonTower(column, row),
-            TowerType.Mage => new MageTower(column, row),
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type,
-            "Tundmatu torni tüüp.")
-        };
+        Tower tower = CreateTower(type, column, row);
 
         if (!Player.SpendMoney(tower.Cost))
         {
-            message = $"Raha ei jätku (vaja {tower.Cost}).";
+            message = LocalizationService.Get("NotEnoughMoney", tower.Cost);
             return false;
         }
 
         _towers.Add(tower);
-        message = $"{tower.Name} paigutatud.";
+        message = LocalizationService.Get("TowerPlaced", GetTowerName(tower));
         return true;
     }
 
@@ -293,7 +356,7 @@ public class Game
         {
             foreach (Enemy enemy in _enemies)
             {
-                enemy.IncreaseHealth() ;
+                enemy.IncreaseHealth();
             }
         }
     }

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<resheader name="resmimetype">
+		<value>text/microsoft-resx</value>
+	</resheader>
+	<resheader name="version">
+		<value>2.0</value>
+	</resheader>
+	<resheader name="reader">
+		<value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+	<resheader name="writer">
+		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+	</resheader>
+
+	<!-- Olekurida -->
+	<data name="StartHint" xml:space="preserve"><value>Vali torn ja puuduta ruutu, et see paigutada.</value></data>
+	<data name="GameRestored" xml:space="preserve"><value>Mäng taastatud. Vajuta ▶, et jätkata.</value></data>
+	<data name="SellModeOn" xml:space="preserve"><value>Müügirežiim: puuduta torni, mida müüa.</value></data>
+	<data name="TowerSold" xml:space="preserve"><value>Müüdud: {0} (+ {1} 💰)</value></data>
+	<data name="NoTowerHere" xml:space="preserve"><value>Selles ruudus pole torni</value></data>
+
+	<!-- Mängu lõpu aken -->
+	<data name="Victory" xml:space="preserve"><value>🎉 Võit!</value></data>
+	<data name="Defeat" xml:space="preserve"><value>💀 Kaotus</value></data>
+	<data name="ResultScore" xml:space="preserve"><value>Punktid: {0}</value></data>
+	<data name="ResultTime" xml:space="preserve"><value>Aeg: {0} s</value></data>
+	<data name="ResultWave" xml:space="preserve"><value>Laine: {0}/{1}</value></data>
+	<data name="NewRecord" xml:space="preserve"><value>Uus rekord!</value></data>
+	<data name="BestScore" xml:space="preserve"><value>Parim tulemus: {0}</value></data>
+	<data name="Ok" xml:space="preserve"><value>OK</value></data>
+
+	<!-- Uuesti alustamine -->
+	<data name="ResetTitle" xml:space="preserve"><value>Alusta uuesti</value></data>
+	<data name="ResetMessage" xml:space="preserve"><value>Kas lõpetada praegune mäng ja alustada otsast peale?</value></data>
+	<data name="Yes" xml:space="preserve"><value>Jah</value></data>
+	<data name="No" xml:space="preserve"><value>Ei</value></data>
+
+	<!-- Tornide paigutamise teated -->
+	<data name="GameIsOver" xml:space="preserve"><value>Mäng on läbi.</value></data>
+	<data name="OutOfBounds" xml:space="preserve"><value>Väljaspool mänguala.</value></data>
+	<data name="OnPath" xml:space="preserve"><value>Rajale ei saa torni panna.</value></data>
+	<data name="TowerExists" xml:space="preserve"><value>Selles ruudus on juba torn.</value></data>
+	<data name="NotEnoughMoney" xml:space="preserve"><value>Raha ei jätku (vaja {0}).</value></data>
+	<data name="TowerPlaced" xml:space="preserve"><value>{0} paigutatud.</value></data>
+
+	<!-- Tornide ja teemade nimed -->
+	<data name="TowerArcher" xml:space="preserve"><value>Vibulaskja</value></data>
+	<data name="TowerCannon" xml:space="preserve"><value>Kahur</value></data>
+	<data name="TowerMage" xml:space="preserve"><value>Võlur</value></data>
+	<data name="ThemeLight" xml:space="preserve"><value>Hele</value></data>
+	<data name="ThemeDark" xml:space="preserve"><value>Tume</value></data>
+	<data name="ThemeColorful" xml:space="preserve"><value>Värviline</value></data>
+
+	<!-- Seadete leht (teeme järgmistes sammudes) -->
+	<data name="SettingsTitle" xml:space="preserve"><value>Seaded</value></data>
+	<data name="LanguageLabel" xml:space="preserve"><value>Keel</value></data>
+	<data name="ThemeLabel" xml:space="preserve"><value>Teema</value></data>
+	<data name="SoundLabel" xml:space="preserve"><value>Heli</value></data>
+	<data name="VolumeLabel" xml:space="preserve"><value>Helitugevus</value></data>
+	<data name="Back" xml:space="preserve"><value>Tagasi</value></data>
+</root>

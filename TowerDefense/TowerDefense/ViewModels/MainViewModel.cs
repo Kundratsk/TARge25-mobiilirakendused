@@ -26,12 +26,12 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private string _moneyText = "";
     [ObservableProperty] private string _scoreText = "";
     [ObservableProperty] private string _waveText = "";
-    [ObservableProperty] private string _statusText = "Vali torn ja puuduta ruutu, et see paigutada.";
+    [ObservableProperty] private string _statusText = LocalizationService.Get("StartHint");
     [ObservableProperty] private string _startButtonText = "▶";
     [ObservableProperty] private TowerType _selectedType = TowerType.Archer;
     [ObservableProperty] private bool _isSellMode;
 
-    // Abiomadused nuppude esiletõstmiseks (XAML-is kasutame neid hiljem)
+    // Abiomadused nuppude esiletõstmiseks
     public bool IsArcherSelected => SelectedType == TowerType.Archer;
     public bool IsCannonSelected => SelectedType == TowerType.Cannon;
     public bool IsMageSelected => SelectedType == TowerType.Mage;
@@ -49,6 +49,15 @@ public partial class MainViewModel : ObservableObject
         Game = new Game(new Player("Mängija"));
         Game.TowerFired += (tower, enemy) => ShotFired?.Invoke(tower, enemy);
         Game.GameEnded += OnGameEnded;
+
+        // Kui eelmisest korrast on pooleli jäänud mäng, taastame selle (jääb pausile)
+        SaveData? save = SaveGameService.Load();
+        if (save != null)
+        {
+            Game.LoadFrom(save);
+            StartButtonText = "▶";
+            StatusText = LocalizationService.Get("GameRestored");
+        }
 
         _lastTick = DateTime.UtcNow;
         _timer = Dispatcher.GetForCurrentThread()!.CreateTimer();
@@ -76,9 +85,12 @@ public partial class MainViewModel : ObservableObject
 
     private async void OnGameEnded(bool won)
     {
+        // Mäng sai läbi, seega pooleli jäänud mängu salvestust pole enam vaja
+        SaveGameService.Delete();
+
         int score = Game.Player.Score;
 
-        // Parim tulemus tuleb nüüd JSON-seadetest
+        // Parim tulemus tuleb JSON-seadetest
         AppSettings settings = SettingsService.Current;
         int best = settings.BestScore;
         bool newBest = score > best;
@@ -88,22 +100,39 @@ public partial class MainViewModel : ObservableObject
             SettingsService.Save();
         }
 
-        string title = won ? "🎉 Võit!" : "💀 Kaotus";
+        string title = LocalizationService.Get(won ? "Victory" : "Defeat");
         string message =
-            $"Punktid: {score}\n" +
-            $"Aeg: {Game.ElapsedSeconds:F0} s\n" +
-            $"Laine: {Game.CurrentWave}/{Game.TotalWaves}\n" +
-            (newBest ? "Uus rekord!" : $"Parim tulemus: {best}");
+            LocalizationService.Get("ResultScore", score) + "\n" +
+            LocalizationService.Get("ResultTime", Game.ElapsedSeconds.ToString("F0")) + "\n" +
+            LocalizationService.Get("ResultWave", Game.CurrentWave, Game.TotalWaves) + "\n" +
+            (newBest
+                ? LocalizationService.Get("NewRecord")
+                : LocalizationService.Get("BestScore", best));
 
-        await Shell.Current.DisplayAlert(title, message, "OK");
+        await Shell.Current.DisplayAlert(title, message, LocalizationService.Get("Ok"));
 
+        RestartGame();
+    }
+
+    // Nullib mängu ja kogu sellega seotud UI oleku (kasutavad nii mängu lõpp kui 🔄 nupp)
+    private void RestartGame()
+    {
         Game.Reset();
         GameReset?.Invoke();
         IsSellMode = false;
         StartButtonText = "▶";
-        StatusText = "Vali torn ja puuduta ruutu, et see paigutada.";
+        StatusText = LocalizationService.Get("StartHint");
         UpdateLabels();
         RedrawRequested?.Invoke();
+    }
+
+    // ---------- Salvestamine ----------
+
+    // Salvestab ainult käimasoleva või pausil mängu; lõppenud mängu ei salvesta
+    public void SaveProgress()
+    {
+        if (Game.State == GameState.Running || Game.State == GameState.Paused)
+            SaveGameService.Save(Game.CreateSaveData());
     }
 
     // ---------- Käsud (nupud seovad end nende külge) ----------
@@ -124,8 +153,8 @@ public partial class MainViewModel : ObservableObject
         IsSellMode = !IsSellMode;
 
         StatusText = IsSellMode
-            ? "Müügirežiim: puuduta torni, mida müüa."
-            : "Vali torn ja puuduta ruutu, et see paigutada.";
+            ? LocalizationService.Get("SellModeOn")
+            : LocalizationService.Get("StartHint");
     }
 
     [RelayCommand]
@@ -140,11 +169,37 @@ public partial class MainViewModel : ObservableObject
             case GameState.Running:
                 Game.Pause();
                 StartButtonText = "▶";
+                SaveProgress();   // pausile panemisel salvestame
                 break;
             case GameState.Paused:
                 Game.Resume();
                 StartButtonText = "⏸";
                 break;
+        }
+    }
+
+    // Async käsk: ootab kasutaja vastust ("await"), ilma et rakendus hanguks
+    [RelayCommand]
+    private async Task ResetGame()
+    {
+        // Peatame mängu, kuni kasutaja otsustab
+        bool wasRunning = Game.State == GameState.Running;
+        if (wasRunning) Game.Pause();
+
+        bool confirmed = await Shell.Current.DisplayAlert(
+            LocalizationService.Get("ResetTitle"),
+            LocalizationService.Get("ResetMessage"),
+            LocalizationService.Get("Yes"),
+            LocalizationService.Get("No"));
+
+        if (confirmed)
+        {
+            SaveGameService.Delete();   // pooleli jäänud mängu salvestus kustub
+            RestartGame();
+        }
+        else if (wasRunning)
+        {
+            Game.Resume();
         }
     }
 
@@ -159,12 +214,13 @@ public partial class MainViewModel : ObservableObject
             if (tower != null)
             {
                 int value = tower.GetSellValue();
+                string name = Game.GetTowerName(tower);
                 Game.SellTower(tower);
-                StatusText = $"Müüdud: {tower.Name} (+ {value} 💰)";
+                StatusText = LocalizationService.Get("TowerSold", name, value);
             }
             else
             {
-                StatusText = "Selles ruudus pole torni";
+                StatusText = LocalizationService.Get("NoTowerHere");
             }
         }
         else
