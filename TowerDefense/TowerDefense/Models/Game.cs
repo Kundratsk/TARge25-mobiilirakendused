@@ -22,9 +22,15 @@ public class Game
     new Point(8, 0),
     new Point(8, 3),
     new Point(0, 3),
-    new Point(0, 5),
-    new Point(7, 5),
-    new Point(7, 6)
+    new Point(0, 6),
+    new Point(2, 6),
+    new Point(2, 4),
+    new Point(4, 4),
+    new Point(4, 6),
+    new Point(6, 6),
+    new Point(6, 4),
+    new Point(8, 4),
+    new Point(8, 6)
 };
 
     private readonly List<Enemy> _enemies = new();
