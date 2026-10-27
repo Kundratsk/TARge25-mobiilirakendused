@@ -21,7 +21,8 @@ Alguses on sul **10 elu** ja **100 raha**.
 | Torn        | Hind | Laskeulatus | Kahjustus | Tulistamiskiirus   |
 | ----------- | ---- | ----------- | --------- | ------------------ |
 | 🏹 Vibukütt | 50   | 2.5 ruutu   | 10        | 2.0 lasku sekundis |
-| 💣 Kahur    | 120  | 3.5 ruutu   | 40        | 0.7 lasku sekundis |
+| 💣 Kahur    | 120  | 3.5 ruutu   | 20        | 0.7 lasku sekundis |
+| 🧙 Võlur    | 170  | 2 ruutu     | 18        | 1.5 lasku sekundis |
 
 Vibukütt on odav ja kiire. Kahur on kallis ja aeglane, aga teeb suure kahjustuse. Torn sihib vaenlast, kes on rajal kõige kaugemal.
 
